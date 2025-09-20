@@ -1,0 +1,99 @@
+<div class="dept-details-container">
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-item">Budget Management</span>
+    <span class="breadcrumb-separator">></span>
+    <span class="breadcrumb-current">{{ budgetData?.department?.department }}</span>
+  </div>
+
+  <!-- Header Section -->
+  <div class="header">
+    <h1 class="page-title">{{ budgetData?.department?.department }}</h1>
+    <button class="edit-budget-btn" (click)="onEditBudget()">
+      <i class="fa-solid fa-pen"></i>
+      EDIT BUDGET
+    </button>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="content-sections">
+    <!-- Budget Allocation Section -->
+    <div class="section">
+      <h3 class="section-title">BUDGET ALLOCATION TO</h3>
+      <div class="section-content">
+        <div class="field">
+          <span class="field-label">Department:</span>
+          <span class="field-value">{{ budgetData?.department?.department }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Details Section -->
+    <div class="section">
+      <h3 class="section-title">BUDGET DETAILS</h3>
+      <div class="section-content">
+        <div class="field">
+          <span class="field-label">Budget name:</span>
+          <span class="field-value">{{ budgetData?.department?.budgetName }}</span>
+        </div>
+        <div class="field">
+          <span class="field-label">Policy:</span>
+          <span class="field-value">{{ budgetData?.department?.policy}}</span>
+        </div>
+        <div class="field">
+          <span class="field-label">Budget period:</span>
+          <span class="field-value">{{ budgetData?.department?.budgetPeriod }}</span>
+        </div>
+        <div class="field">
+          <span class="field-label">Start date:</span>
+          <span class="field-value">{{ formatDate(budgetData?.department?.startDate||'') }}</span>
+        </div>
+        <div class="field">
+          <span class="field-label">End date:</span>
+          <span class="field-value">{{ formatDate(budgetData?.department?.endDate||'') }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Amount Section -->
+    <div class="section">
+      <h3 class="section-title">BUDGET AMOUNT</h3>
+      <div class="section-content">
+        <div class="field">
+          <span class="field-label">Total amount:</span>
+          <span class="field-value amount">{{ formatCurrency(budgetData?.department?.totalAmount || 0) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employees Section -->
+    <div class="section">
+      <h3 class="section-title">EMPLOYEES</h3>
+      <div class="employees-container">
+        @for (employee of budgetData?.employees; track employee.id) {
+          <div class="employee-card">
+            <div class="employee-name">{{ employee.name }}</div>
+            <div class="employee-details">
+              <div class="employee-grade">
+                <span class="detail-label">Grade:</span>
+                <span class="detail-value">{{ employee.grade }}</span>
+              </div>
+              <div class="employee-budget">
+                <span class="detail-label">Budget:</span>
+                <span class="detail-value">{{ formatCurrency(employee.budget) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <div class="back-section">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back to Budget Management
+    </button>
+  </div>
+</div>

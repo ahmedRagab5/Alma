@@ -1,0 +1,60 @@
+<div class="map-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1 class="main-title">Active Bookings</h1>
+    <p class="subtitle">All your ongoing and upcoming reservations.</p>
+
+    <!-- Filter and Search Bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="travelDates">Travel dates</label>
+        <select
+          id="travelDates"
+          [(ngModel)]="selectedTravelDate"
+          (change)="onFilterChange()"
+          class="filter-select">
+          <option *ngFor="let date of travelDates" [value]="date">{{ date }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="corporate">Select corporate</label>
+        <select
+          id="corporate"
+          [(ngModel)]="selectedCorporate"
+          (change)="onFilterChange()"
+          class="filter-select">
+          <option *ngFor="let corp of corporates" [value]="corp">{{ corp }}</option>
+        </select>
+      </div>
+
+      <div class="search-group">
+        <label for="searchName">Search by name</label>
+        <div class="search-input-container">
+          <input
+            type="text"
+            id="searchName"
+            [(ngModel)]="searchName"
+            (input)="onSearch()"
+            placeholder="Search by name"
+            class="search-input">
+          <i class="search-icon">🔍</i>
+        </div>
+      </div>
+
+      <button class="search-button" (click)="onSearch()">SEARCH</button>
+    </div>
+  </div>
+
+  <!-- Map Section -->
+  <div class="map-section">
+    <div id="map" class="map"></div>
+
+    <!-- Map Controls -->
+    <div class="map-controls">
+      <button class="zoom-control zoom-in" (click)="zoomIn()">+</button>
+      <div class="zoom-level">{{ getZoomLevel() }}%</div>
+      <button class="zoom-control zoom-out" (click)="zoomOut()">-</button>
+    </div>
+  </div>
+</div>

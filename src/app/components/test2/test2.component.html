@@ -1,0 +1,195 @@
+<!-- Top Navigation Bar -->
+<nav class="top-nav">
+  <div class="nav-container">
+    <div class="nav-item">Dashboard</div>
+    <div class="nav-item active">
+      My Alma
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="nav-item">Client</div>
+    <div class="nav-item">
+      Bookings
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="nav-item">
+      Billing & Reports
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="nav-item">
+      Expense Management
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="nav-item">
+      Wallet
+      <span class="dropdown-arrow">▼</span>
+    </div>
+    <div class="nav-item">
+      Help
+      <span class="dropdown-arrow">▼</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content Area -->
+<div class="main-container">
+  <div class="page-header">
+    <h1 class="page-title">Corporate Code</h1>
+    <p class="page-description">The Corporate Code uniquely identifies your organization within the system.</p>
+  </div>
+
+  <div class="content-card">
+    <!-- Page Title and Description -->
+
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab"
+           [class.active]="activeTab === 'tmc'"
+           (click)="setActiveTab('tmc')">
+        TMC
+      </div>
+      <div class="tab"
+           [class.active]="activeTab === 'corporate'"
+           (click)="setActiveTab('corporate')">
+        Corporate
+      </div>
+    </div>
+
+    <!-- TMC Section (Active Tab Content) -->
+    <div class="tab-content" *ngIf="activeTab === 'tmc'">
+
+
+      <!-- Controls Above the Table -->
+      <div class="table-controls">
+        <div class="top">
+          <div class="section-header">
+            <h2 class="section-title">TMC</h2>
+            <p class="section-description">Manage travel management company with expert support, cost control.</p>
+          </div>
+          <button class="add-new-btn">
+            <span class="plus-icon">+</span>
+            ADD NEW
+          </button>
+        </div>
+        <div class="bottom">
+          <div class="entries-control">
+            <span>Show</span>
+            <select [(ngModel)]="showEntries">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <span>entries</span>
+          </div>
+          <div class="search-control">
+            <input type="text"
+                   [(ngModel)]="searchTerm"
+                   placeholder="Search"
+                   class="search-input">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="sortable">
+                <div>
+                  Airline Name
+                <!-- <span class="sort-arrow"></span> -->
+                <div class="sort-arrow">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+                </div>
+              </th>
+              <th class="sortable">
+               <div>
+                 Valid From
+                <div class="sort-arrow">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+               </div>
+              </th>
+              <th class="sortable">
+                <div>
+                  Expires On
+                <div class="sort-arrow">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+                </div>
+              </th>
+              <th class="sortable">
+               <div>
+                Code Count
+                <div class="sort-arrow">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+               </div>
+              </th>
+              <th class="sortable">
+               <div>
+                Status
+                <div class="sort-arrow">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+               </div>
+              </th>
+              <th >Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let airline of airlines">
+              <td>{{ airline.name }}</td>
+              <td>{{ airline.validFrom }}</td>
+              <td>{{ airline.expiresOn }}</td>
+              <td>{{ airline.codeCount }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(airline.status)">
+                  {{ airline.status }}
+                </span>
+              </td>
+              <td class="actions">
+                <button class="action-btn edit-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                <button class="action-btn view-btn" title="View"><i class="fas fa-eye"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="pagination-info">
+          Showing 1 to {{ showEntries }} of {{ totalEntries }} entries
+        </div>
+        <div class="pagination-controls">
+          <button class="page-btn arrow" [disabled]="currentPage === 1"><i class="fa-solid fa-angle-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn arrow"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corporate Section -->
+    <div class="tab-content" *ngIf="activeTab === 'corporate'">
+      <div class="section-header">
+        <h2 class="section-title">Corporate</h2>
+        <p class="section-description">Corporate section content will go here.</p>
+      </div>
+    </div>
+  </div>
+</div>

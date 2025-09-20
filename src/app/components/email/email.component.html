@@ -1,0 +1,51 @@
+
+
+<div class="input-field" >
+  <div class="cont" (click)="isOpen=!isOpen">
+    <div class="top">
+      <span>Booking For</span>
+      @if (!isOpen) {
+        <span><i class="fa-solid fa-angle-down"></i></span>
+      }
+      @else {
+        <span><i class="fa-solid fa-angle-up"></i></span>
+      }
+    </div>
+      @if (email.email) {
+        <div>{{email.name}}</div>
+        <div>{{email.email}}</div>
+
+      }
+      @else {
+        <div>Enter Email</div>
+      }
+    </div>
+
+
+  <div class="class-dropdown" [style.display]="isOpen?'flex':'none'">
+    <div class="input">
+      <input type="email" placeholder="Enter Traveler's Email ID">
+      <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    </div>
+    <div class="body">
+      <div (click)="selectEmail()">
+        <div class="title">MY SELF</div>
+        <div class="option" >
+          <span class="name">{{mySelf.name}}</span>
+          <span class="email">{{mySelf.email}}</span>
+        </div>
+
+      </div>
+      <div >
+        <div class="title">OTHERS</div>
+        <div class="option">
+          <span class="name">Guest</span>
+          <span class="email">Employee,Client etc.</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+

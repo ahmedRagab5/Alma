@@ -1,0 +1,58 @@
+
+#ol-map {
+  width: 90%;
+  height: 600px;
+  border-radius: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+}
+::ng-deep .ol-zoom{
+  display: flex;
+  border: 1px solid rgb(83, 67, 67);
+  border-radius: 8px;
+  width: fit-content;
+  overflow: hidden;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+}
+::ng-deep .ol-zoom-in{
+  order: 1;
+  padding: 5px;
+}
+::ng-deep .ol-zoom-out{
+  order: 3;
+  padding: 5px;
+}
+::ng-deep .ol-zoom span{
+  order: 2;
+  padding: 5px;
+  border-left: 1px solid rgb(83, 67, 67);
+  border-right: 1px solid rgb(83, 67, 67);
+  height: 36px;
+  font-size: small;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  background-color: white;
+}
+::ng-deep .ol-zoom-out,::ng-deep .ol-zoom-in{
+  border: 0;
+  width: 36px;
+  height: 36px;
+  font-size: larger;
+  background-color: white;
+}
+/* ::ng-deep .ol-zoom button {
+
+  color: #000;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border: none;
+} */

@@ -1,0 +1,137 @@
+<div class="date-picker">
+  <!-- Date Input Fields -->
+  <div class="date-inputs">
+    <div class="input-group">
+      <div class="input-field" (click)="toggleCalendar()">
+        <div class="label">
+          <span>Departure</span>
+          <i class="fa-solid fa-calendar"></i>
+        </div>
+
+        @if (departureDate) {
+          <div class="fieldDate">
+            {{ getFormattedDateRange(departureDate!)}}
+          </div>
+          <div class="filedDay">
+            {{getDay(departureDate!)}}
+          </div>
+        }
+        @else {
+          <div class="fieldPar">Add Departur date</div>
+        }
+      </div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-field" (click)="toggleCalendar()">
+        <div class="label">
+          <span>Return</span>
+          <i class="fa-solid fa-calendar"></i>
+        </div>
+
+        @if (returnDate) {
+          <div class="fieldDate">
+            {{ getFormattedDateRange(returnDate!)}}
+          </div>
+          <div class="filedDay">
+            {{getDay(returnDate!)}}
+          </div>
+        }
+        @else {
+          <div class="fieldPar">Add Departur date</div>
+        }
+      </div>
+    </div>
+
+
+
+  <!-- Selected Date Range Display -->
+
+
+  <!-- Calendar Dropdown -->
+  <div class="calendar-dropdown" *ngIf="isCalendarOpen">
+    <div class="date-range-display" *ngIf="getFormattedDateRange(departureDate!)||getFormattedDateRange(returnDate!) ">
+      <i class="fa-regular fa-calendar"></i> {{ getFormattedDateRange(departureDate!) }} -
+      <i class="fa-regular fa-calendar"></i> {{ getFormattedDateRange(returnDate!) }}
+    </div>
+    <div class="calendars-container">
+      <!-- First Calendar -->
+      <div class="calendar">
+        <div class="calendar-header">
+          <button (click)="previousMonth()" class="nav-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <h3>{{ getMonthName(currentMonth1) }}</h3>
+
+        </div>
+
+        <div class="calendar-grid">
+          <div class="weekdays">
+            <span>Su</span>
+            <span>Mo</span>
+            <span>Tu</span>
+            <span>We</span>
+            <span>Th</span>
+            <span>Fr</span>
+            <span>Sa</span>
+          </div>
+
+          <div class="days">
+            <div class="cont" *ngFor="let day of getDaysInMonth(currentMonth1); trackBy: trackByDate">
+              <div
+
+              class="day"
+              [class.other-month]="day.getMonth() !== currentMonth1.getMonth()"
+              [class.in-range]="isInRange(day)"
+              [class.start-date]="isStartDate(day)"
+              [class.end-date]="isEndDate(day)"
+              (click)="selectDate(day)"
+            >
+              {{ day.getDate() }}
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Calendar -->
+      <div class="calendar">
+        <div class="calendar-header">
+          <h3>{{ getMonthName(currentMonth2) }}</h3>
+          <button (click)="nextMonth()" class="nav-btn">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="calendar-grid">
+          <div class="weekdays">
+            <span>Su</span>
+            <span>Mo</span>
+            <span>Tu</span>
+            <span>We</span>
+            <span>Th</span>
+            <span>Fr</span>
+            <span>Sa</span>
+          </div>
+
+          <div class="days">
+            <div class="cont" *ngFor="let day of getDaysInMonth(currentMonth2); trackBy: trackByDate">
+              <div
+              class="day"
+              [class.other-month]="day.getMonth() !== currentMonth2.getMonth()"
+              [class.in-range]="isInRange(day)"
+              [class.start-date]="isStartDate(day)"
+              [class.end-date]="isEndDate(day)"
+              (click)="selectDate(day)"
+            >
+              {{ day.getDate() }}
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

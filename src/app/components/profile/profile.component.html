@@ -1,0 +1,111 @@
+<div class="profile-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <h1 class="page-title">Profile</h1>
+      <p class="page-subtitle">View and manage your company profile.</p>
+    </div>
+    <button class="edit-btn" (click)="isEditMode=true">
+      <svg class="edit-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+      </svg>
+      EDIT
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Company Logo Section -->
+    <div class="logo-section">
+      <div class="logo-card">
+        <div class="company-logo">
+          <div class="logo"><img [src]="companyDetails.logoUrl" alt=""></div>
+        </div>
+      </div>
+    </div>
+<div class="rigt">
+      <div class="details-section">
+      <div class="details-card">
+        <h2 class="section-title">BASIC DETAILS</h2>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Corporate name</span>
+            <span class="detail-value">{{ companyDetails.corporateName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Company address</span>
+            <span class="detail-value">{{companyDetails.buildingNumber+ ' ' + companyDetails.streetName + ',' +companyDetails.city + ','+ companyDetails.country}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Country</span>
+            <span class="detail-value">{{ companyDetails.country }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Currency</span>
+            <span class="detail-value">{{ companyDetails.currency }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Time zone</span>
+            <span class="detail-value">{{ companyDetails.timezone }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exclusions Section -->
+    <div class="exclusions-section">
+      <div class="exclusions-card">
+        <h2 class="section-title">EXCLUSIONS</h2>
+        <p class="exclusions-description">
+          The corporate you select will not see your logo on their vouchers or emails.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Corporate *</label>
+          <div class="custom-multiselect">
+            <div class="multiselect-input" (click)="toggleDropdown()">
+              <div class="selected-tags-container">
+                <div class="tag" *ngFor="let corp of selectedCorporates">
+                  <span class="tag-text">{{ corp.name }}</span>
+                  <button class="tag-remove" (click)="removeCorporate(corp.id, $event)" type="button">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+                <span class="placeholder" *ngIf="selectedCorporates.length === 0">Select corporates</span>
+              </div>
+              <div class="dropdown-arrow" [class.rotated]="isDropdownOpen">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="dropdown-menu" *ngIf="isDropdownOpen">
+              <div class="dropdown-item"
+                   *ngFor="let corp of availableCorporates"
+                   (click)="addCorporate(corp.id)"
+                   [class.disabled]="isCorporateSelected(corp.id)">
+                {{ corp.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="save-btn" [style.background-color]="selectedCorporates.length > 0?'#EF4137':'#6c757d'" (click)="saveExclusions()">SAVE</button>
+      </div>
+    </div>
+</div>
+    <!-- Basic Details Section -->
+
+  </div>
+  <div class="edit" [style.right]="isEditMode?'0':'-100%'">
+    <app-edit-profile [companyDetails]="companyDetails" (dataToParent)="receiveData($event)"></app-edit-profile>
+    <div class="close" (click)="isEditMode=false"><span><i class="fa-solid fa-x"></i></span></div>
+  </div>
+  <!-- @if (isEditMode) { -->
+
+    <div class="back" [style.display]="isEditMode?'block':'none'"></div>
+
+
+</div>

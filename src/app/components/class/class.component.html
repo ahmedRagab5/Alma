@@ -1,0 +1,43 @@
+
+  <div class="input-field" >
+    <div class="cont" (click)="isOpen=!isOpen">
+      <div class="top">
+        <span>Class</span>
+        @if (!isOpen) {
+          <span><i class="fa-solid fa-angle-down"></i></span>
+        }
+        @else {
+          <span><i class="fa-solid fa-angle-up"></i></span>
+        }
+      </div>
+      <div>
+        @if (class) {
+          <span>{{class}}</span>
+        }
+        @else {
+          <span>Select Class</span>
+        }
+      </div>
+    </div>
+
+    <div class="class-dropdown" [style.display]="isOpen?'block':'none'">
+      <span class="title">
+        Select Class
+      </span>
+      <div class="body">
+        @for (c of classes; track $index) {
+          <div class="class" (click)="selectClass(c)">
+            @if (class===c) {
+              <span><i class="fa-solid fa-circle-check" style="color: #ff4444;"></i></span>
+            }
+            @else{
+              <i class="fa-regular fa-circle"></i>
+            }
+            <span>{{c}}</span>
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+

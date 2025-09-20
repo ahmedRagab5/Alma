@@ -1,0 +1,151 @@
+<div class="edit-passport-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <span class="page-title">Edit {{title}} Details</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="form-container">
+      <form [formGroup]="passportForm" class="passport-form">
+        <!-- Form Fields -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <select class="form-select" formControlName="title">
+              <option value="">Select</option>
+              <option value="Mr.">Mr.</option>
+              <option value="Mrs.">Mrs.</option>
+              <option value="Ms.">Ms.</option>
+              <option value="Dr.">Dr.</option>
+              <option value="Prof.">Prof.</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">First name</label>
+            <input type="text" class="form-input" formControlName="firstName" placeholder="Enter first name">
+            <span class="error">{{getErrorMessage('firstName')}}</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Middle name</label>
+            <input type="text" class="form-input" formControlName="middleName" placeholder="Enter middle name">
+            <span class="error">{{getErrorMessage('middleName')}}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name</label>
+            <input type="text" class="form-input" formControlName="lastName" placeholder="Enter last name">
+            <span class="error">{{getErrorMessage('lastName')}}</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Passport number</label>
+            <input type="text" class="form-input" formControlName="passportNumber" placeholder="Enter passport number">
+            <span class="error">{{getErrorMessage('passportNumber')}}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Passport issuing country</label>
+            <select class="form-select" formControlName="issuingCountry">
+              <option value="">Select</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="UAE">UAE</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+              <option value="Canada">Canada</option>
+            </select>
+            <span class="error">{{getErrorMessage('issuingCountry')}}</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Date of issue</label>
+            <input type="date" class="form-input" formControlName="dateOfIssue">
+            <span class="error">{{getErrorMessage('dateOfIssue')}}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date of expiration</label>
+            <input type="date" class="form-input" formControlName="dateOfExpiration">
+            <span class="error">{{getErrorMessage('dateOfExpiration')}}</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Date of birth</label>
+            <input type="date" class="form-input" formControlName="dateOfBirth">
+            <span class="error">{{getErrorMessage('dateOfBirth')}}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nationality</label>
+            <select class="form-select" formControlName="nationality">
+              <option value="">Select</option>
+              <option value="Saudi">Saudi</option>
+              <option value="American">American</option>
+              <option value="British">British</option>
+              <option value="Canadian">Canadian</option>
+            </select>
+            <span class="error">{{getErrorMessage('nationality')}}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Country of residence</label>
+            <select class="form-select" formControlName="countryOfResidence">
+              <option value="">Select</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="UAE">UAE</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+            </select>
+            <span class="error">{{getErrorMessage('countryOfResidence')}}</span>
+          </div>
+          <div class="form-group mobile-group">
+            <label class="form-label">Mobile Number *</label>
+            <div class="mobile-input-container">
+              <select class="form-select country-code" formControlName="countryCode">
+                <option value="+966">+966</option>
+                <option value="+1">+1</option>
+                <option value="+44">+44</option>
+                <option value="+971">+971</option>
+              </select>
+              <span class="error">{{getErrorMessage('countryCode')}}</span>
+              <input type="tel" class="form-input mobile-number" formControlName="mobileNumber" placeholder="000-000-0000">
+              <span class="error">{{getErrorMessage('mobileNumber')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <input type="email" class="form-input" formControlName="emailAddress" placeholder="Enter email address">
+            <span class="error">{{getErrorMessage('emailAddress')}}</span>
+          </div>
+
+            <div class="checkbox-container">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="confirmation" class="checkbox-input">
+                <span class="checkbox-text">I confirm all the details are exactly as it appears on the passport</span>
+              </label>
+              <span class="error">{{getErrorMessage('confirmation')}}</span>
+            </div>
+
+
+        </div>
+
+        <!-- Confirmation Checkbox -->
+
+
+        <!-- Add More Link -->
+        @if (!isMember) {
+          <div class="add-more-container">
+            <a href="#" class="add-more-link" (click)="addMorePassport()">Add More</a>
+          </div>
+        }
+      </form>
+    </div>
+
+    <!-- Action Buttons -->
+    @if (!isMember) {
+      <div class="action-buttons">
+        <button class="cancel-btn" type="button" (click)="cancelEditAction()">CANCEL</button>
+        <button class="update-btn" type="button" (click)="updatePassportDetails()">UPDATE</button>
+      </div>
+    }
+  </div>
+</div>

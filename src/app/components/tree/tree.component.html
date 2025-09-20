@@ -1,0 +1,72 @@
+<div class="hierarchy-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="title-section">
+      <h1 class="main-title">Hierarchy</h1>
+      <p class="description">Organize your team with centralized staff records. Assign roles and approvers to streamline travel workflows.</p>
+    </div>
+
+    <!-- Action Bar -->
+
+  </div>
+
+  <!-- Organizational Chart -->
+  <div id="org-chart" class="org-chart" *ngIf="topLevelEmployee">
+    <div class="action-bar">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search"
+          [value]="searchTerm"
+          (input)="onSearch($event)"
+        />
+        <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      </div>
+        <button class="download-btn" (click)="onDownload()">
+          <span class="download-icon"><i class="fa-solid fa-download"></i></span>
+          Download
+        </button>
+    </div>
+    <!-- Top Level Employee -->
+    <div style="width: 100%;">
+      <div class="top-level">
+        <div class="employee-card top-employee">
+          <img [src]="topLevelEmployee.image" [alt]="topLevelEmployee.name" class="profile-image">
+          <div class="employee-info">
+            <h3 class="employee-name">{{ topLevelEmployee.name }}</h3>
+            <p class="employee-role">Role: {{ topLevelEmployee.role }}</p>
+          </div>
+        </div>
+        <div class="vertical-line"></div>
+      </div>
+
+
+
+       <!-- Subordinates -->
+       <div class="subordinates" id="subordinates" *ngIf="filteredSubordinates.length > 0">
+         @for (subordinate of filteredSubordinates; track $index ) {
+           <div class="subordinate" >
+             <div class="vertical-line"></div>
+             @if(filteredSubordinates.length > 1){
+               <div [class]="$index==0? 'horizontal-line start-line':$index==filteredSubordinates.length-1?'horizontal-line end-line':'horizontal-line in-line' "></div>
+             }
+             <div class="employee-card" [class.highlighted]="searchTerm && (subordinate.name.toLowerCase().includes(searchTerm.toLowerCase()) || subordinate.role.toLowerCase().includes(searchTerm.toLowerCase()))">
+               <img [src]="subordinate.image" [alt]="subordinate.name" class="profile-image">
+               <div class="employee-info">
+                 <h3 class="employee-name" [innerHTML]="highlightText(subordinate.name, searchTerm)"></h3>
+                 <p class="employee-role" [innerHTML]="'Role: ' + highlightText(subordinate.role, searchTerm)"></p>
+               </div>
+             </div>
+           </div>
+         }
+
+       </div>
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div class="no-results" *ngIf="searchTerm && filteredSubordinates.length === 0">
+    <p>No employees found matching your search criteria.</p>
+  </div>
+</div>

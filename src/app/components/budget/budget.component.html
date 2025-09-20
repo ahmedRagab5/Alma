@@ -1,0 +1,284 @@
+<div class="container">
+
+  @if (isAddBudget) {
+    <div class="add-budget">
+      <app-add-budget [data]="selectedBudget!" (dataToParent)="addBudget($event)" (cancelToParent)="cancelAddBudget()"></app-add-budget>
+    </div>
+  } @else if (isDeptDetails && selectedBudget) {
+    <app-dept-details
+      [budgetData]="selectedBudget"
+      (backToBudget)="backToBudget()"
+      (editBudget)="editBudget()">
+    </app-dept-details>
+  } @else {
+    <div class="budget-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <div class="title-section">
+        <span>Budget Management</span>
+        <p>Set budgets by department, or employee to keep travel expenses aligned with your goals.</p>
+      </div>
+      @if (!isAdd) {
+        <button class="create-budget-btn" (click)="createNewBudget()">
+          CREATE NEW BUDGET
+        </button>
+      }
+    </div>
+  </div>
+
+
+    <div class="main-content">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <nav class="nav-menu">
+          <div class="nav-item active">
+            <span>Dashboard</span>
+          </div>
+          <div class="nav-item">
+            <span>Reports</span>
+          </div>
+          <div class="nav-item">
+            <span>Policies</span>
+          </div>
+        </nav>
+      </div>
+      @if (activePage==="dashboard") {
+        @if (!isAdd) {
+          <!-- Main Content Area -->
+            <div class="content-area">
+            <!-- Dashboard Section -->
+            <div class="dashboard-section">
+              <div class="section-header">
+                <div class="section-title">
+                  <span>Dashboard</span>
+
+                </div>
+                <div class="time-filter">
+                  <select [(ngModel)]="timeFilter" (change)="onTimeFilterChange($event)">
+                    <option value="Last 30 days">Last 30 days</option>
+                    <option value="Last 90 days">Last 90 days</option>
+                    <option value="Last year">Last year</option>
+                  </select>
+                  <span class="dropdown-arrow">▼</span>
+                </div>
+              </div>
+
+              <!-- Chart Section -->
+              <div class="chart-container">
+                <div class="info">
+                  <p>Departmental Budget Allocation</p>
+                  <div class="color">
+                    <div class="blue">
+                      <span></span>
+                      Assigned Budget
+                    </div>
+                    <div class="white">
+                      <span></span>
+                      Spend Budget
+                    </div>
+                  </div>
+                </div>
+                <div class="chart">
+                  <div class="y-axis">
+                    <div class="y-label">{{maxValue}}k</div>
+                    <div class="y-label">{{maxValue*0.8}}k</div>
+                    <div class="y-label">{{maxValue*0.6}}k</div>
+                    <div class="y-label">{{maxValue*0.4}}k</div>
+                    <div class="y-label">{{maxValue*0.2}}k</div>
+                    <div class="y-label">0k</div>
+
+                  </div>
+                  <div class="chart-bars">
+                    <div class="bar-group" *ngFor="let data of budgets">
+                      <div class="bar-container">
+                        <div class="bar assigned" [style.height.%]="(data.department.assignedBudget)/maxValue * 100"></div>
+                        <div class="bar spend" [style.height.%]="(data.department.assignedBudget)/maxValue * 100"></div>
+                      </div>
+                      <div class="bar-label">{{ data.department }}</div>
+                    </div>
+                    <div class="lines">
+                      <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking Details Section -->
+            <div class="booking-details-section">
+              <div class="section-header">
+                <div class="section-title">
+                  <span>Booking Details</span>
+                  <div class="tabs">
+                    <button
+                      class="tab"
+                      [class.active]="activeTab === 'department'"
+                      (click)="setActiveTab('department')">
+                      Department
+                    </button>
+                    <button
+                      class="tab"
+                      [class.active]="activeTab === 'employee'"
+                      (click)="setActiveTab('employee')">
+                      Employee
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Table Controls -->
+              <div class="cont">
+                <p>Departmental Budget Allocation</p>
+                <div class="table-controls">
+                  <div class="entries-selector">
+                    <label>Show</label>
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)">
+                      <option value="7">7</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                    </select>
+                    <label >entries</label>
+                  </div>
+                  <div class="search-box">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      [(ngModel)]="searchTerm"
+                      (input)="onSearchChange($event)">
+                    <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                  </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-container">
+                  <table class="budget-table">
+                    <thead>
+                      <tr>
+                        <th class="sortable">
+                          <div>
+                            Department
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+
+                        </th>
+                        <th class="sortable">
+                          <div>
+                            Assigned Budget
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+                                          </th>
+                        <th class="sortable">
+                          <div>
+                            Spend Budget
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+                                            </th>
+                        <th class="sortable">
+                          <div>
+                            Available Budget
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+                        </th>
+                        <th class="sortable">
+                          <div>
+                            Actions
+                            <span class="caret">
+                              <i class="fa-solid fa-caret-up"></i>
+                              <i class="fa-solid fa-caret-down"></i>
+                            </span>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let budget of paginatedBudgets">
+                        <td>{{ budget.department }}</td>
+                        <td>{{ formatCurrency(budget.department.assignedBudget) }}</td>
+                        <td>{{ formatCurrency(budget.department.spendBudget) }}</td>
+                        <td>{{ formatCurrency(budget.department.availableBudget) }}</td>
+                        <td>
+                          <button
+                            class="action-btn"
+                            (click)="viewDetails(budget)"
+                            title="View Details">
+                            <span class="eye"><i class="fa-solid fa-eye"></i></span>
+
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                  <div class="pagination-info">
+                    Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
+                    {{ Math.min(currentPage * itemsPerPage, filteredBudgets.length) }}
+                    of {{ filteredBudgets.length }} entries
+                  </div>
+                  <div class="pagination-controls">
+                    <button
+                      class="page-btn arrow"
+                      [disabled]="currentPage === 1"
+                      (click)="previousPage()">
+                      ‹
+                    </button>
+                    <button
+                      *ngFor="let page of pages"
+                      class="page-btn"
+                      [class.active]="page === currentPage"
+                      (click)="goToPage(page)">
+                      {{ page }}
+                    </button>
+                    <button
+                      class="page-btn arrow"
+                      [disabled]="currentPage === totalPages"
+                      (click)="nextPage()">
+                      ›
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          }
+          @else {
+            <div class="add-area">
+              <div class="cont">
+                <div class="img"></div>
+              <span class="title">No Budgets Set Yet</span>
+              <p>Start by creating a budget to manage travel spending by department, employee. Stay in control and optimize your travel costs.</p>
+              <div class="btn" (click)="isAddBudget=true">Add New Budget</div>
+              </div>
+            </div>
+          }
+      }
+
+    </div>
+
+
+    </div>
+  }
+</div>

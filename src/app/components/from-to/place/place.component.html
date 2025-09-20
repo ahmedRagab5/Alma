@@ -1,0 +1,29 @@
+<div class="place-container">
+  <div class="place-field" >
+    <div class="field" (click)="click()">
+      <div class="place-label">{{name()}}</div>
+      <div class="place-city">{{city.cityName}}</div>
+      <div class="place-details">{{city.cityCode}}, {{city.desc}}</div>
+    </div>
+    <div class="select" [style.display]="isShow?'block':'none'">
+      <div class="input">
+        <input type="text" [placeholder]="name()" [formControl]="search" (input)="change()">
+        <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      </div>
+
+      <p class="title">RECENT SEARCHES</p>
+      <div class="cities">
+        @for (c of filterCities; track $index) {
+          <div class="city" (click)="select(c)">
+            <div class="top">
+              <span class="name">{{c.cityName + ',' +c.countryName}}</span>
+              <span class="code">{{c.cityCode}}</span>
+            </div>
+            <div class="bottom">{{c.desc}}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>

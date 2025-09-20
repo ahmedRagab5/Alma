@@ -1,0 +1,151 @@
+<div class="edit-profile-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <h1 class="page-title">Edit Profile</h1>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Company Logo Section -->
+    <div class="logo-section">
+      <h2 class="section-title">COMPANY LOGO</h2>
+      <div class="logo-card">
+        <div class="company-logo">
+
+            <img *ngIf="logoPreview" [src]="logoPreview" alt="Company Logo" class="logo-image">
+
+
+        </div>
+        <button class="upload-btn" type="button" (click)="triggerFileInput()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </button>
+        <input #fileInput type="file" accept="image/*" (change)="onLogoSelected($event)" style="display: none;">
+      </div>
+    </div>
+
+    <!-- Basic Details Section -->
+    <div class="details-section">
+      <h2 class="section-title">BASIC DETAILS</h2>
+      <div class="details-card">
+        <form [formGroup]="profileForm" class="profile-form">
+          <!-- Row 1 -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Corporate name *</label>
+              <input type="text" class="form-input" formControlName="corporateName"
+                     [class.error]="hasError('corporateName')">
+              <div class="error-message" *ngIf="hasError('corporateName')">
+                {{ getErrorMessage('corporateName') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Building number *</label>
+              <input type="text" class="form-input" formControlName="buildingNumber"
+                     [class.error]="hasError('buildingNumber')">
+              <div class="error-message" *ngIf="hasError('buildingNumber')">
+                {{ getErrorMessage('buildingNumber') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Street name *</label>
+              <input type="text" class="form-input" formControlName="streetName"
+                     [class.error]="hasError('streetName')">
+              <div class="error-message" *ngIf="hasError('streetName')">
+                {{ getErrorMessage('streetName') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">District/ Neighborhood *</label>
+              <input type="text" class="form-input" formControlName="district"
+                     [class.error]="hasError('district')">
+              <div class="error-message" *ngIf="hasError('district')">
+                {{ getErrorMessage('district') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">City name *</label>
+              <input type="text" class="form-input" formControlName="city"
+                     [class.error]="hasError('city')">
+              <div class="error-message" *ngIf="hasError('city')">
+                {{ getErrorMessage('city') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Postal code *</label>
+              <input type="text" class="form-input" formControlName="postalCode"
+                     [class.error]="hasError('postalCode')">
+              <div class="error-message" *ngIf="hasError('postalCode')">
+                {{ getErrorMessage('postalCode') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Unit number</label>
+              <input type="text" class="form-input" placeholder="Enter unit number" formControlName="unitNumber">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Country *</label>
+              <select class="form-select" formControlName="country"
+                      [class.error]="hasError('country')">
+                <option value="Saudi Arabia">Saudi Arabia</option>
+                <option value="UAE">UAE</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Qatar">Qatar</option>
+              </select>
+              <div class="error-message" *ngIf="hasError('country')">
+                {{ getErrorMessage('country') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Currency *</label>
+              <select class="form-select" formControlName="currency"
+                      [class.error]="hasError('currency')">
+                <option value="SAR">SAR</option>
+                <option value="AED">AED</option>
+                <option value="KWD">KWD</option>
+                <option value="QAR">QAR</option>
+              </select>
+              <div class="error-message" *ngIf="hasError('currency')">
+                {{ getErrorMessage('currency') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Time zone *</label>
+              <select class="form-select" formControlName="timezone"
+                      [class.error]="hasError('timezone')">
+                <option value="(UTC+03:00) Kuwait, Riyadh">(UTC+03:00) Kuwait, Riyadh</option>
+                <option value="(UTC+04:00) Dubai, Abu Dhabi">(UTC+04:00) Dubai, Abu Dhabi</option>
+                <option value="(UTC+03:00) Doha">(UTC+03:00) Doha</option>
+              </select>
+              <div class="error-message" *ngIf="hasError('timezone')">
+                {{ getErrorMessage('timezone') }}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="cancel-btn" type="button" (click)="cancelEdit()">CANCEL</button>
+      <button class="save-btn" type="button" (click)="saveProfile()">SAVE</button>
+    </div>
+  </div>
+</div>

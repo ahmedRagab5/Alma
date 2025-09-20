@@ -1,0 +1,159 @@
+<div class="add-budget-form">
+
+    <div class="form-header">
+      <div class="form-title">
+        <span>Add New Budget</span>
+        <p>Define who the budget applies to, how much they can spend, and over what period.</p>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancelAddBudget()">CANCEL</button>
+        <button type="submit" class="save-btn" (click)="saveBudget()">SAVE</button>
+      </div>
+    </div>
+
+    <div class="form-content">
+      <!-- Left Column -->
+
+        <form class="form-left" [formGroup]="radio.value=='department'?departmentForm:userForm" (ngSubmit)="saveBudget()">
+
+
+        <div >
+        <!-- Budget Allocation Section -->
+        <div class="form-section">
+          <h3>BUDGET ALLOCATION TO</h3>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" [formControl]="radio" value="department" (change)="changeRadio()">
+              <span class="custom-radio"></span>
+              Department
+            </label>
+            <label class="radio-option">
+              <input type="radio" [formControl]="radio" value="user" (change)="changeRadio()">
+              <span class="custom-radio"></span>
+              User
+            </label>
+          </div>
+          @if (radio.value=='department') {
+            <div class="form-group">
+              <label>Department*</label>
+              <select formControlName="selectedDepartment">
+                <option value="">Select</option>
+                <option value="admin">Admin</option>
+                <option value="finance">Finance</option>
+                <option value="sales">Sales</option>
+                <option value="operations">Operations</option>
+                <option value="development">Development</option>
+                <option value="hr">HR</option>
+              </select>
+              <div *ngIf="isFieldInvalid('selectedDepartment')" class="error-message">
+                {{ getFieldError('selectedDepartment') }}
+              </div>
+            </div>
+          }
+        </div>
+        <div class="line"></div>
+        <!-- Budget Details Section -->
+        <div class="form-section">
+          <h3>BUDGET DETAILS</h3>
+          <div class="form-group">
+            <label>Budget name*</label>
+            <input type="text" formControlName="budgetName" placeholder="Enter budget name">
+            <div *ngIf="isFieldInvalid('budgetName')" class="error-message">
+              {{ getFieldError('budgetName') }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Policy</label>
+              <select formControlName="selectedPolicy">
+                <option value="">Select</option>
+                <option value="policy1">Policy 1</option>
+                <option value="policy2">Policy 2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Budget period*</label>
+              <select formControlName="budgetPeriod">
+                <option value="">Select</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+              <div *ngIf="isFieldInvalid('budgetPeriod')" class="error-message">
+                {{ getFieldError('budgetPeriod') }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start date*</label>
+              <div class="date-input">
+                <input type="date" formControlName="startDate" placeholder="Select date">
+                <i class="fa-solid fa-calendar"></i>
+              </div>
+              <div *ngIf="isFieldInvalid('startDate')" class="error-message">
+                {{ getFieldError('startDate') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label>End date*</label>
+              <div class="date-input">
+                <input type="date" formControlName="endDate" placeholder="Select date">
+                <i class="fa-solid fa-calendar"></i>
+              </div>
+              <div *ngIf="isFieldInvalid('endDate')" class="error-message">
+                {{ getFieldError('endDate') }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="line"></div>
+        <!-- Budget Amount Section -->
+        <div class="form-section">
+          <h3>BUDGET AMOUNT</h3>
+          <div class="form-group">
+            <label>Total amount*</label>
+            <div class="amount-input">
+              <input type="number" formControlName="totalAmount" placeholder="Enter amount">
+              <span class="currency">SAR</span>
+            </div>
+            <div *ngIf="isFieldInvalid('totalAmount')" class="error-message">
+              {{ getFieldError('totalAmount') }}
+            </div>
+          </div>
+        </div>
+        </div>
+      </form>
+      <!-- Right Column -->
+      <div class="form-right">
+        <!-- Employees Section -->
+        <div class="form-section">
+          <h3>EMPLOYEES</h3>
+          <form [formGroup]="newEmployeeForm">
+            <div formArrayName="employees">
+              @for (employee of employees.controls; track $index; let i = $index) {
+                <div class="employee-input-row" [formGroup]="$any(employee)">
+                  <select formControlName="name" placeholder="Select Name">
+                    <option value="">Select Name</option>
+                    <option *ngFor="let emp of employeeOptions" [value]="emp.id">
+                      {{ emp.name }}
+                    </option>
+                  </select>
+                  <input type="text" formControlName="grade" placeholder="Grade" readonly>
+                  <div class="amount-input">
+                    <input type="number" formControlName="amount" placeholder="Enter amount">
+                    <span class="currency">SAR</span>
+                  </div>
+                  @if (employees.length > 1) {
+                    <button type="button" class="remove-btn" (click)="removeEmployee(i)">×</button>
+                  }
+                </div>
+              }
+            </div>
+          </form>
+          <button type="button" class="add-employee-btn" (click)="addEmployee()">ADD EMPLOYEE</button>
+        </div>
+      </div>
+    </div>
+
+</div>

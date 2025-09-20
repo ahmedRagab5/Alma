@@ -1,0 +1,90 @@
+<div class="edit-preferences-container">
+  <div class="edit-preferences-header">
+    <span>Edit Preferences</span>
+  </div>
+
+  <form [formGroup]="preferencesForm" (ngSubmit)="updatePreferences()" class="preferences-form">
+    <div class="form-group">
+      <label for="seatPreferences" class="required">Seat preferences</label>
+      <select id="seatPreferences" formControlName="seatPreferences" class="form-select">
+        <option value="">Select</option>
+        <option value="window">Window</option>
+        <option value="aisle">Aisle</option>
+        <option value="middle">Middle</option>
+        <option value="exit-row">Exit Row</option>
+      </select>
+      <div *ngIf="hasError('seatPreferences')" class="error-message">
+        {{ getErrorMessage('seatPreferences') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="meal" class="required">Meal</label>
+      <select id="meal" formControlName="meal" class="form-select">
+        <option value="">Select</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="non-vegetarian">Non-Vegetarian</option>
+        <option value="vegan">Vegan</option>
+        <option value="halal">Halal</option>
+        <option value="kosher">Kosher</option>
+        <option value="gluten-free">Gluten-Free</option>
+      </select>
+      <div *ngIf="hasError('meal')" class="error-message">
+        {{ getErrorMessage('meal') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="frequentFlyerNumber" class="required">Frequent flyer number</label>
+      <input
+        type="text"
+        id="frequentFlyerNumber"
+        formControlName="frequentFlyerNumber"
+        class="form-input"
+        placeholder="Enter frequent flyer number"
+      >
+      <div *ngIf="hasError('frequentFlyerNumber')" class="error-message">
+        {{ getErrorMessage('frequentFlyerNumber') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="frequentFlyerAirlines" class="required">Frequent flyer airlines</label>
+      <select id="frequentFlyerAirlines" formControlName="frequentFlyerAirlines" class="form-select" >
+        <option value="">Select</option>
+        <option value="saudia">Saudia</option>
+        <option value="emirates">Emirates</option>
+        <option value="qatar">Qatar Airways</option>
+        <option value="etihad">Etihad Airways</option>
+        <option value="flynas">Flynas</option>
+        <option value="other">Other</option>
+      </select>
+      <div *ngIf="hasError('frequentFlyerAirlines')" class="error-message">
+        {{ getErrorMessage('frequentFlyerAirlines') }}
+      </div>
+    </div>
+
+    <div class="toggle-group">
+      <div class="toggle-item">
+        <label for="travelAlerts" class="toggle-label">Travel alerts</label>
+        <div class="toggle-switch"  (click)="toggle(1)">
+
+          <span [class]="originalDetails.travelAlerts?'toggle-slider checked':'toggle-slider'"></span>
+        </div>
+      </div>
+
+      <div class="toggle-item">
+        <label for="allBillingEntities" class="toggle-label">All billing entities</label>
+        <div class="toggle-switch" (click)="toggle(2)">
+
+          <span [class]="originalDetails.allBillingEntities?'toggle-slider checked':'toggle-slider'" ></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancelEditAction()">CANCEL</button>
+      <button type="submit" class="btn-update" [disabled]="preferencesForm.invalid">UPDATE</button>
+    </div>
+  </form>
+</div>

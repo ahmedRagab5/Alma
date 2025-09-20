@@ -1,0 +1,333 @@
+<div class="profile-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <h1 class="page-title">Profile</h1>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Sidebar -->
+    <div class="left-sidebar">
+      <!-- Profile Picture Section -->
+      <div class="profile-picture-section">
+        <div class="profile-picture-container">
+          <img [src]="profileData.logoUrl || '/assets/download.jpeg'" alt="Profile Picture" class="profile-picture">
+          <button class="edit-picture-btn" (click)="triggerFileInput()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <input #fileInput type="file" accept="image/*" (change)="onLogoSelected($event)" style="display: none;">
+
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Completion Section -->
+      <div class="profile-completion">
+        <h3 class="completion-title">Complete Your Profile</h3>
+        <span class="completion-text">{{ profileData.basic.completionPercentage }}% completed</span>
+
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="profileData.basic.completionPercentage"></div>
+        </div>
+      </div>
+
+      <!-- Logout Button -->
+      <button class="logout-btn" (click)="logout()">
+        <!-- <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16,17 21,12 16,7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg> -->
+        <i class="fa-solid fa-power-off"></i>
+        Logout
+      </button>
+    </div>
+
+    <!-- Right Content Area -->
+    <div class="right-content">
+      <!-- Basic Details Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">BASIC DETAILS</span>
+          <span  class="edit-link" (click)="editSection('basic')">Edit</span>
+        </div>
+        <div class="section-content">
+          <div class="detail-row">
+            <span class="detail-label">Name</span>
+            <span class="detail-value">{{ profileData.basic.firstName +' '+profileData.basic.middleName +' '+profileData.basic.lastName   }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Gender</span>
+            <span class="detail-value">{{ profileData.basic.gender }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Date of birth</span>
+            <span class="detail-value">{{ formatDate(profileData.basic.dateOfBirth) }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Role</span>
+            <span class="detail-value">{{ profileData.basic.role }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+      <!-- Passport Details Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">PASSPORT DETAILS</span>
+        </div>
+        <div class="section-content">
+          <div class="card-list">
+            <div class="card" *ngFor="let passport of profileData.passports; let i = index">
+              <div class="card-content">
+                <div class="card-row">
+                  <!-- <span class="card-label">Passport number:</span> -->
+                  <span class="card-value">{{ passport.passportNumber }}</span>
+                </div>
+                <div class="card-row">
+                  <!-- <span class="card-label">Country:</span> -->
+                  <span class="card-value">{{ passport.issuingCountry }}</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-label">Expires on:</span>
+                  <span class="card-value">{{ formatDate(passport.dateOfExpiration) }}</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="action-btn delete-btn" (click)="deletePassport(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                  </svg>
+                </button>
+                <button class="action-btn edit-btn" (click)="editPassport(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+
+      <!-- Iqama Details Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">IQAMA DETAILS</span>
+        </div>
+        <div class="section-content">
+          <div class="card-list">
+            <div class="card" *ngFor="let iqama of profileData.iqamas; let i = index">
+              <div class="card-content">
+                <div class="card-row">
+                  <span class="card-value">{{ iqama.passportNumber }}</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-value">{{ iqama.issuingCountry }}</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-label">Expires on:</span>
+                  <span class="card-value">{{ formatDate(iqama.dateOfExpiration) }}</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="action-btn delete-btn" (click)="deleteIqama(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                  </svg>
+                </button>
+                <button class="action-btn edit-btn" (click)="editIqama(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+
+      <!-- Login Details Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">LOGIN DETAILS</span>
+          <span class="edit-link" (click)="editSection('pass')">Change Password?</span>
+        </div>
+        <div class="section-content">
+          <div class="detail-row">
+            <span class="detail-label">Work email</span>
+            <span class="detail-value">{{ profileData.secrite.email }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Password</span>
+            <span class="detail-value">{{ profileData.secrite.password }}</span>
+            <!-- <span class="detail-value p-dot"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span> -->
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Mobile Number</span>
+            <span class="detail-value">{{ profileData.secrite.mobileNumber }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+
+      <!-- Preferences Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">PREFERENCES</span>
+          <span  class="edit-link" (click)="editSection('preferences')">Edit</span>
+        </div>
+        <div class="section-content">
+          <div class="detail-row">
+            <span class="detail-label">Seat preferences</span>
+            <span class="detail-value">{{ profileData.preferences.seatPreferences }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Meal preferences</span>
+            <span class="detail-value">{{ profileData.preferences.meal }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Frequent flyer number</span>
+            <span class="detail-value">{{ profileData.preferences.frequentFlyerNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Frequent flyer airlines</span>
+            <span class="detail-value">{{ profileData.preferences.frequentFlyerAirlines }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Travel alerts</span>
+            <span class="detail-value">{{ profileData.preferences.travelAlerts ? 'ON' : 'OFF' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">All billing entities</span>
+            <span class="detail-value">{{ profileData.preferences.allBillingEntities ? 'ON' : 'OFF' }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+
+      <!-- Family Members Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">FAMILY MEMBERS</span>
+          <span class="edit-link" (click)="editSection('member')">Add Member</span>
+        </div>
+        <div class="section-content">
+          <div class="card-list">
+            <div class="card" *ngFor="let member of profileData.familyMembers; let i = index">
+              <div class="card-content">
+                <div class="card-row">
+                  <span class="card-value">{{ member.basic.firstName +' '+ member.basic.lastName}}</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-value">{{ member.relationship }}</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="action-btn delete-btn" (click)="deleteFamilyMember(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                  </svg>
+                </button>
+                <button class="action-btn edit-btn" (click)="editFamilyMember(i)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back" [style.display]="isEditMode?'block':'none'"></div>
+  <!-- Edit Basic Details Modal -->
+  <div class="edit-modal" [style.right]="isEditMode ? '0': '-100%'">
+
+    @if (isEditBasicMode || isEditPassportMode || isEditIqamaMode) {
+    <div class="edit-modal-content">
+        @if (isEditBasicMode) {
+          <app-edit-basic
+            [basicDetails]="profileData.basic"
+            (dataToParent)="onBasicDetailsUpdated($event)"
+            (cancelEdit)="onCancelEdit()">
+          </app-edit-basic>
+        }
+
+        @else if (isEditPassportMode) {
+          <app-edit-passport
+          [passportDetails]="getPassportDetailsForEdit()"
+          (dataToParent)="onPassportDetailsUpdated($event)"
+          (cancelEdit)="onCancelEdit()">
+        </app-edit-passport>
+        }
+        @else if (isEditIqamaMode) {
+          <app-edit-passport
+          [passportDetails]="profileData.iqamas[editingIqamaIndex]"
+          (dataToParent)="onIqamaDetailsUpdated($event)"
+          (cancelEdit)="onCancelEdit()">
+        </app-edit-passport>
+        }
+      </div>
+    }
+
+
+    @if (isEditPassMode || isEditPreferencesMode) {
+      <div class="edit-modal2-content">
+        @if (isEditPassMode) {
+          <app-password (dataToParent)="onChangePass($event)"></app-password>
+        }
+        @else if (isEditPreferencesMode) {
+          <app-edit-preferences
+          [preferencesDetails]="profileData.preferences"
+          (dataToParent)="onPreferencesUpdated($event)"
+          (cancelEdit)="onCancelEditPreferences()">
+        </app-edit-preferences>
+        }
+      </div>
+    }
+    @if (isEditMemberMode) {
+      <div class="edit-modal3-content">
+        <app-member (dataToParent)="addFamilyMember($event)" [data]="profileData.familyMembers[editingMemberIndex]" (cancelEdit)="onCancelEdit()"></app-member>
+      </div>
+    }
+
+
+
+    <div class="close" (click)="close()"><span><i class="fa-solid fa-x"></i></span></div>
+  </div>
+
+  <!-- Edit Passport Details Modal -->
+  <!-- <div class="edit-modal" [style.right]="isEditPassportMode ? '0': '-100%'">
+    <div class="edit-modal-content">
+
+    </div>
+    <div class="close" (click)="onCancelEditPassport()"><span><i class="fa-solid fa-x"></i></span></div>
+  </div> -->
+  <div class="logout">
+    <div class="x"></div>
+    <div class="icon"></div>
+    <div class="text">
+      <div class="head"></div>
+      <div class="par"></div>
+      <div class="btns">
+        <div class="no"></div>
+        <div class="yes"></div>
+      </div>
+    </div>
+  </div>
+</div>

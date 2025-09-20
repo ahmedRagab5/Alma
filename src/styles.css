@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*{
+  box-sizing: border-box;
+}
+
+:root{
+  --Border:1px solid #E8E5E5;
+  --Body-Text:#575757;
+  --Primary:#EF4137;
+}
+

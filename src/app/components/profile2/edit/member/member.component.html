@@ -1,0 +1,59 @@
+<app-edit-basic [basicDetails]="data?.basic" [relationIn]="data?.relationship" [isMember]="true" (dataToParent)="fromBasic($event)" (sendRelation)="resvRelation($event)"></app-edit-basic>
+
+<div class="center">
+  <div>
+    <div class="head">Identity proof</div>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="document" value="passport" [checked]="!isIqama" (click)="isIqama=false"/>
+        <span class="custom-radio"></span>
+        Passport
+      </label>
+
+      <label class="radio-option">
+        <input type="radio" name="document" value="iqama" [checked]="isIqama" (click)="isIqama=true"/>
+        <span class="custom-radio"></span>
+        Iqama
+      </label>
+    </div>
+
+  </div>
+  <div class="toggle-item ">
+    <div class="toggle-switch" (click)="toggle(2)">
+      <span [class]="true?'toggle-slider checked':'toggle-slider'" ></span>
+    </div>
+    <label for="allBillingEntities" class="toggle-label">Saudi National </label>
+  </div>
+</div>
+
+<!-- <div class="parent">
+  <div class="slider">
+    <div class="passport">
+      <app-edit-passport  title="Iqama" [isMember]="true" (dataToParent)="fromPassport($event)"></app-edit-passport>
+    </div>
+    <div class="iqama">
+      <app-edit-passport title="Paaport" [isMember]="true" (dataToParent)="fromIqama($event)"></app-edit-passport>
+    </div>
+
+  </div>
+</div> -->
+
+ @if (isIqama) {
+      <app-edit-passport  [passportDetails]="data?.iqama" title="Iqama" [isMember]="true" (dataToParent)="fromIqama($event)"></app-edit-passport>
+
+
+}
+@else {
+  <!-- @if (data.passport) { -->
+      <app-edit-passport [passportDetails]="data?.passport" title="Paaport" [isMember]="true" (dataToParent)="fromPassport($event)"></app-edit-passport>
+
+  <!-- } -->
+}
+
+<div class="action-buttons">
+  <button class="cancel-btn" type="button" (click)="cancelAction()">CANCEL</button>
+  <button class="update-btn" type="button" (click)="updateDetails()">
+   {{data?'UPDATE':'ADD'}}
+  </button>
+</div>
+

@@ -1,0 +1,95 @@
+<div class="edit-basic-container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="header-content">
+      <span class="page-title">Edit Basic Details</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="form-container">
+      <form [formGroup]="basicForm" class="basic-form">
+        <!-- Form Fields -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <select class="form-select" formControlName="title">
+              <option value="">Select</option>
+              <option value="Mr.">Mr.</option>
+              <option value="Mrs.">Mrs.</option>
+              <option value="Ms.">Ms.</option>
+              <option value="Dr.">Dr.</option>
+              <option value="Prof.">Prof.</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">First name  <span class="star">*</span></label>
+            <input type="text" class="form-input" formControlName="firstName"
+                   [class.error]="hasError('firstName')" placeholder="Enter first name">
+            <div class="error-message" *ngIf="hasError('firstName')">
+              {{ getErrorMessage('firstName') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Middle name  <span class="star">*</span></label>
+            <input type="text" class="form-input" formControlName="middleName"
+                   [class.error]="hasError('middleName')" placeholder="Enter middle name">
+            <div class="error-message" *ngIf="hasError('middleName')">
+              {{ getErrorMessage('middleName') }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name *</label>
+            <input type="text" class="form-input" formControlName="lastName"
+                   [class.error]="hasError('lastName')" placeholder="Enter last name">
+            <div class="error-message" *ngIf="hasError('lastName')">
+              {{ getErrorMessage('lastName') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Gender</label>
+            <select class="form-select" formControlName="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          @if (isMember) {
+            <div class="form-group">
+              <label class="form-label">Relation *</label>
+              <input type="text" class="form-input" [formControl]="relation"
+                     [class.error]="!relation.valid" placeholder="Enter relation">
+              <div class="error-message" *ngIf="!relation.valid">
+                @if(relation.errors?.['required'] && relation.touched){
+                  Relation is required
+                }
+                @if(relation.errors?.['minlength'] && relation.touched){
+                  Relation must be at least {{relation.errors?.['minlength'].requiredLength}} characters
+                }
+              </div>
+            </div>
+          }
+          <div class="form-group">
+            <label class="form-label">Date of birth <span class="star">*</span></label>
+            <input type="date" class="form-input" formControlName="dateOfBirth"
+                   [class.error]="hasError('dateOfBirth')">
+            <div class="error-message" *ngIf="hasError('dateOfBirth')">
+              {{ getErrorMessage('dateOfBirth') }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Action Buttons -->
+    @if (!isMember) {
+      <div class="action-buttons">
+        <button class="cancel-btn" type="button" (click)="cancelEditAction()">CANCEL</button>
+        <button class="update-btn" type="button" (click)="updateBasicDetails()">UPDATE</button>
+      </div>
+    }
+  </div>
+</div>
