@@ -1,0 +1,135 @@
+<div class="cont">
+    <div class="table-controls">
+      <div class="entries-selector">
+        <label>Show</label>
+        <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)">
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+        <label >entries</label>
+      </div>
+   <div class="inputs">
+    @for (filter of filters; track $index) {
+      <div class="filter">
+        <select name="" id="" [(ngModel)]="filter.value">
+          <option value="" >{{filter.placeholder}}</option>
+          @for (option of filter.options; track option) {
+            <option style="color: black" [value]="option">{{option}}</option>
+          }
+        </select>
+      </div>
+    }
+    @if (dateName) {
+      <div class="date">
+        <div>
+          <span class="lable">From</span>
+          <input  type="date" [(ngModel)]="fromDate">
+        </div>
+        <div>
+          <span class="lable">To</span>
+          <input  type="date" [(ngModel)]="toDate">
+        </div>
+
+
+      </div>
+    }
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        >
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    </div>
+   </div>
+    </div>
+    <div class="table-container">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            @for (col of columns; track col.key) {
+              <th class="sortable">
+                <div>
+                  {{col.title}}
+                <span class="caret">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </span>
+                </div>
+
+              </th>
+            }
+
+
+            <!-- <th class="sortable">
+              <div>
+                Actions
+                <span class="caret">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <i class="fa-solid fa-caret-down"></i>
+                </span>
+              </div>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedData; track $index) {
+            <tr>
+              @for (col of columns; track $index) {
+                <td>{{row[col.key]}}</td>
+              }
+
+            </tr>
+          }
+
+            <!-- <td>
+              <button
+                class="action-btn"
+                (click)="viewBudgetDetails(budget)"
+                title="View Details">
+                <span class="eye"><i class="fa-solid fa-eye"></i></span>
+
+              </button>
+            </td> -->
+        </tbody>
+      </table>
+    </div>
+
+
+
+  <!-- Table -->
+
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <div class="pagination-info">
+      Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
+      {{ Math.min(currentPage * itemsPerPage, filteredData.length) }}
+      of {{ filteredData.length }} entries
+    </div>
+    <div class="pagination-controls">
+      <button
+        class="page-btn arrow"
+        [disabled]="currentPage === 1"
+        (click)="previousPage()">
+        ‹
+      </button>
+      @for (page of pages; track page) {
+        <button
+          class="page-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      }
+      <button
+        class="page-btn arrow"
+        [disabled]="currentPage === totalPages"
+        (click)="nextPage()">
+        ›
+      </button>
+    </div>
+  </div>
+</div>

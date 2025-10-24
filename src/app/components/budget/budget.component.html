@@ -2,13 +2,13 @@
 
   @if (isAddBudget) {
     <div class="add-budget">
-      <app-add-budget [data]="selectedBudget!" (dataToParent)="addBudget($event)" (cancelToParent)="cancelAddBudget()"></app-add-budget>
+      <app-add-budget [data]="selectedBudget!"  (dataToParent)="editBudget($event)" (cancelToParent)="cancelAddBudget()"></app-add-budget>
     </div>
   } @else if (isDeptDetails && selectedBudget) {
     <app-dept-details
       [budgetData]="selectedBudget"
       (backToBudget)="backToBudget()"
-      (editBudget)="editBudget()">
+      (editBudget)="editBudgetClick()">
     </app-dept-details>
   } @else {
     <div class="budget-container">
@@ -93,9 +93,9 @@
                     <div class="bar-group" *ngFor="let data of budgets">
                       <div class="bar-container">
                         <div class="bar assigned" [style.height.%]="(data.department.assignedBudget)/maxValue * 100"></div>
-                        <div class="bar spend" [style.height.%]="(data.department.assignedBudget)/maxValue * 100"></div>
+                        <div class="bar spend" [style.height.%]="(data.department.spendBudget)/maxValue * 100"></div>
                       </div>
-                      <div class="bar-label">{{ data.department }}</div>
+                      <div class="bar-label">{{ data.department.department }}</div>
                     </div>
                     <div class="lines">
                       <div class="line"></div>
@@ -136,33 +136,145 @@
 
               <!-- Table Controls -->
               <div class="cont">
-                <p>Departmental Budget Allocation</p>
-                <div class="table-controls">
-                  <div class="entries-selector">
-                    <label>Show</label>
-                    <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)">
-                      <option value="7">7</option>
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                    </select>
-                    <label >entries</label>
+                @if (activeTab==='department') {
+                  <p>Departmental Budget Allocation</p>
+                  <div class="table-controls">
+                    <div class="entries-selector">
+                      <label>Show</label>
+                      <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)">
+                        <option value="7">7</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                      <label >entries</label>
+                    </div>
+                    <div class="search-box">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        [(ngModel)]="searchTerm"
+                        (input)="onSearchChange($event)">
+                      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    </div>
                   </div>
-                  <div class="search-box">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      [(ngModel)]="searchTerm"
-                      (input)="onSearchChange($event)">
-                    <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-                  </div>
-                </div>
+                  <div class="table-container">
+                    <table class="budget-table">
+                      <thead>
+                        <tr>
+                          <th class="sortable">
+                            <div>
+                              Department
+                            <span class="caret">
+                              <i class="fa-solid fa-caret-up"></i>
+                              <i class="fa-solid fa-caret-down"></i>
+                            </span>
+                            </div>
 
-                <!-- Table -->
+                          </th>
+                          <th class="sortable">
+                            <div>
+                              Assigned Budget
+                            <span class="caret">
+                              <i class="fa-solid fa-caret-up"></i>
+                              <i class="fa-solid fa-caret-down"></i>
+                            </span>
+                            </div>
+                                            </th>
+                          <th class="sortable">
+                            <div>
+                              Spend Budget
+                            <span class="caret">
+                              <i class="fa-solid fa-caret-up"></i>
+                              <i class="fa-solid fa-caret-down"></i>
+                            </span>
+                            </div>
+                                              </th>
+                          <th class="sortable">
+                            <div>
+                              Available Budget
+                            <span class="caret">
+                              <i class="fa-solid fa-caret-up"></i>
+                              <i class="fa-solid fa-caret-down"></i>
+                            </span>
+                            </div>
+                          </th>
+                          <th class="sortable">
+                            <div>
+                              Actions
+                              <span class="caret">
+                                <i class="fa-solid fa-caret-up"></i>
+                                <i class="fa-solid fa-caret-down"></i>
+                              </span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let budget of paginatedBudgets">
+                          <td>{{ budget.department.department }}</td>
+                          <td>{{ formatCurrency(budget.department.assignedBudget) }}</td>
+                          <td>{{ formatCurrency(budget.department.spendBudget) }}</td>
+                          <td>{{ formatCurrency(budget.department.availableBudget) }}</td>
+                          <td>
+                            <button
+                              class="action-btn"
+                              (click)="viewBudgetDetails(budget)"
+                              title="View Details">
+                              <span class="eye"><i class="fa-solid fa-eye"></i></span>
+
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                }
+                @else{
+                  <p>Employees Budget Allocation</p>
+                  <div class="table-controls">
+                    <div class="entries-selector">
+                      <label>Show</label>
+                      <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)">
+                        <option value="7">7</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                      <label >entries</label>
+                    </div>
+                    <div class="search-box">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        [(ngModel)]="searchTerm"
+                        (input)="onSearchChange($event)">
+                      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    </div>
+                  </div>
                 <div class="table-container">
                   <table class="budget-table">
                     <thead>
                       <tr>
+                        <th class="sortable">
+                          <div>
+                            Employee Name
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+
+                        </th>
+                        <th class="sortable">
+                          <div>
+                            Role
+                          <span class="caret">
+                            <i class="fa-solid fa-caret-up"></i>
+                            <i class="fa-solid fa-caret-down"></i>
+                          </span>
+                          </div>
+                        </th>
                         <th class="sortable">
                           <div>
                             Department
@@ -171,7 +283,6 @@
                             <i class="fa-solid fa-caret-down"></i>
                           </span>
                           </div>
-
                         </th>
                         <th class="sortable">
                           <div>
@@ -181,7 +292,10 @@
                             <i class="fa-solid fa-caret-down"></i>
                           </span>
                           </div>
-                                          </th>
+                        </th>
+
+
+
                         <th class="sortable">
                           <div>
                             Spend Budget
@@ -190,16 +304,8 @@
                             <i class="fa-solid fa-caret-down"></i>
                           </span>
                           </div>
-                                            </th>
-                        <th class="sortable">
-                          <div>
-                            Available Budget
-                          <span class="caret">
-                            <i class="fa-solid fa-caret-up"></i>
-                            <i class="fa-solid fa-caret-down"></i>
-                          </span>
-                          </div>
                         </th>
+
                         <th class="sortable">
                           <div>
                             Actions
@@ -212,15 +318,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let budget of paginatedBudgets">
-                        <td>{{ budget.department }}</td>
-                        <td>{{ formatCurrency(budget.department.assignedBudget) }}</td>
-                        <td>{{ formatCurrency(budget.department.spendBudget) }}</td>
-                        <td>{{ formatCurrency(budget.department.availableBudget) }}</td>
+                      <tr *ngFor="let emp of employees">
+                        <td>{{ emp.name }}</td>
+                        <td>{{ emp.role }}</td>
+                        <td>{{ emp.department }}</td>
+                        <td>{{ formatCurrency(emp.assignedBudget) }}</td>
+                        <td>{{ formatCurrency(emp.spendBudget) }}</td>
+                        <!-- <td>{{ formatCurrency(budget.em) }}</td>
+                        <td>{{ formatCurrency(budget.user.spendBudget) }}</td>
+                        <td>{{ formatCurrency(budget.user.availableBudget) }}</td> -->
                         <td>
                           <button
                             class="action-btn"
-                            (click)="viewDetails(budget)"
+                            (click)="viewEmpDetails(emp)"
                             title="View Details">
                             <span class="eye"><i class="fa-solid fa-eye"></i></span>
 
@@ -230,6 +340,10 @@
                     </tbody>
                   </table>
                 </div>
+                }
+
+                <!-- Table -->
+
 
                 <!-- Pagination -->
                 <div class="pagination">

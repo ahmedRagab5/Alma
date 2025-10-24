@@ -21,20 +21,21 @@ interface DepartmentBudget {
 }
 
 @Component({
-  selector: 'app-dept-details',
+  selector: 'app-emp-details',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './dept-details.component.html',
-  styleUrl: './dept-details.component.css'
+  imports: [],
+  templateUrl: './emp-details.component.html',
+  styleUrl: './emp-details.component.css'
 })
-export class DeptDetailsComponent implements OnInit {
-  @Input() budgetData!: Budget;
+export class EmpDetailsComponent {
+
+  @Input() empData!: Employee;
   @Output() backToBudget = new EventEmitter<void>();
   @Output() editBudget = new EventEmitter<void>();
 
   ngOnInit() {
     // Initialize component
-    console.log(this.budgetData.employees)
+    console.log(this.empData)
   }
 
   goBack() {

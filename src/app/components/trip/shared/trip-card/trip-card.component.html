@@ -1,0 +1,106 @@
+<div class="trip-card">
+  <div class="trip-card__header">
+    <span class="badge">{{ trip.badge }}</span>
+    <span class="menu"><i class="fa-solid fa-chevron-right"></i></span>
+  </div>
+
+  <div class="trip-card__top">
+    <div class="left">
+      <img *ngIf="trip.logoUrl" class="logo" [src]="trip.logoUrl" [alt]="trip.carrier" />
+      <div class="title">
+        <div class="transport">{{ trip.transportLabel }}: <strong>{{ trip.carrier }}</strong></div>
+        @if(trip.type === 'flight'){
+          <div class="route">
+            <strong>{{ trip.fromCity }}</strong> ({{ trip.fromCode }})
+            <span class="arrow">→</span>
+            <strong>{{ trip.toCity }}</strong> ({{ trip.toCode }})
+          </div>
+        }
+
+      </div>
+    </div>
+    <div class="right">
+      <div class="requester-name">{{ trip.requesterName }} <span *ngIf="trip.requesterCountLabel">{{ trip.requesterCountLabel }}</span></div>
+      <div class="requester-role">{{ trip.requesterRole }}</div>
+    </div>
+  </div>
+
+  <div class="trip-card__details">
+    <!-- Shared -->
+    <div class="detail"><div class="label">Trip ID</div><div class="value">{{ trip.tripId }}</div></div>
+    <div class="detail"><div class="label">Trip Name</div><div class="value">{{ trip.tripName }}</div></div>
+    <div class="detail"><div class="label">Cost Center</div><div class="value">{{ trip.costCenter }}</div></div>
+    <div class="detail"><div class="label">Requested On</div><div class="value">{{ trip.requestedOn }}</div></div>
+
+    <!-- Flight -->
+    <ng-container *ngIf="trip.type === 'flight'">
+      <div class="detail"><div class="label">Departure</div><div class="value">{{ trip.departureOn }}</div></div>
+      <div class="detail"><div class="label">Fare Class</div><div class="value">{{ trip.fareClass }}</div></div>
+    </ng-container>
+
+    <!-- Hotel -->
+    <ng-container *ngIf="trip.type === 'hotel'">
+      <div class="detail"><div class="label">Location</div><div class="value">{{ trip.location }}</div></div>
+      <div class="detail"><div class="label">Check-in</div><div class="value">{{ trip.checkIn }}</div></div>
+      <div class="detail"><div class="label">Check-out</div><div class="value">{{ trip.checkOut }}</div></div>
+    </ng-container>
+
+    <!-- Car -->
+    <ng-container *ngIf="trip.type === 'car'">
+      <div class="detail"><div class="label">Rental Type</div><div class="value">{{ trip.rentalType }}</div></div>
+      <div class="detail"><div class="label">Pickup</div><div class="value">{{ trip.pickupOn }}</div></div>
+      <div class="detail"><div class="label">Drop-off</div><div class="value">{{ trip.dropoffOn }}</div></div>
+    </ng-container>
+
+    <!-- Visa -->
+    <ng-container *ngIf="trip.type === 'visa'">
+      <div class="detail"><div class="label">Visa Type</div><div class="value">{{ trip.visaType }}</div></div>
+      <div class="detail"><div class="label">Status</div><div class="value">{{ trip.visaStatus }}</div></div>
+    </ng-container>
+
+    <!-- Insurance -->
+    <ng-container *ngIf="trip.type === 'insurance'">
+      <div class="detail"><div class="label">Plan Type</div><div class="value">{{ trip.planType }}</div></div>
+      <div class="detail"><div class="label">Session Type</div><div class="value">{{ trip.sessionType }}</div></div>
+      <div class="detail"><div class="label">Insurance Type</div><div class="value">{{ trip.insuranceType }}</div></div>
+    </ng-container>
+
+    <!-- Package -->
+    <ng-container *ngIf="trip.type === 'package'">
+      <div class="detail"><div class="label">Nights</div><div class="value">{{ trip.nights }}</div></div>
+      <div class="detail"><div class="label">Return</div><div class="value">{{ trip.returnOn }}</div></div>
+    </ng-container>
+
+    <!-- Cruise -->
+    <ng-container *ngIf="trip.type === 'cruise'">
+      <div class="detail"><div class="label">Depart - Arrival Date</div><div class="value">{{ trip.departArrivalOn }}</div></div>
+    </ng-container>
+
+    <!-- Data Plan -->
+    <ng-container *ngIf="trip.type === 'data'">
+      <div class="detail"><div class="label">Plan Type</div><div class="value">{{ trip.planCategory }}</div></div>
+      <div class="detail"><div class="label">Data Type</div><div class="value">{{ trip.dataType }}</div></div>
+    </ng-container>
+
+    <!-- Activity -->
+    <ng-container *ngIf="trip.type === 'activity'">
+      <div class="detail"><div class="label">Address</div><div class="value">{{ trip.address }}</div></div>
+      <div class="detail"><div class="label">Departure</div><div class="value">{{ trip.departureOn }}</div></div>
+    </ng-container>
+
+    <!-- Price -->
+    <div class="detail price"><div class="label">Price</div><div class="value price-value">{{ trip.priceAmount | currency : trip.priceCurrency }}</div></div>
+  </div>
+
+  <div class="trip-card__footer">
+    <div class="policy">
+      <span class="icon">i</span>
+      <span class="text">{{ trip.policyNote }}</span>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" type="button">DECLINE</button>
+      <button class="btn btn-primary" type="button">APPROVE</button>
+    </div>
+  </div>
+</div>
+

@@ -9,7 +9,14 @@ export interface Employee {
   name: string;
   grade: string;
   budget: number;
+  department:string;
+  role:string;
+  assignedBudget:number;
+  spendBudget:number
 }
+// { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+// { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+// { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
 
 export interface SubBudget {
   department?: string;
@@ -24,6 +31,7 @@ export interface SubBudget {
   totalAmount: number;
 }
 export interface Budget{
+  id:string
   department:SubBudget;
   user:SubBudget;
   employees:Employee[];
@@ -46,10 +54,13 @@ export class BudgetComponent {
   isAdd=true
   isAddBudget=false
   isDeptDetails=false
+  isEmpDetails=false
   selectedBudget: Budget | null = null
+  selectedEmp: Employee | null = null
   maxValue:number=-1
   budgets: Budget[] = [
     {
+      id:"b1",
       department:{
         department: 'admin',
         assignedBudget: 100000,
@@ -74,12 +85,13 @@ export class BudgetComponent {
         totalAmount: 100000,
       },
       employees: [
-        { id: '1', name: 'Fahad Abdullah Saud', grade: 'F', budget: 40000 },
-        { id: '2', name: 'Ahmed Saeed Mansoori', grade: 'F', budget: 30000 },
-        { id: '3', name: 'Sultan Faisal Al Jaber', grade: 'F', budget: 15000 }
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
       ]
     },
     {
+      id:"b2",
       department:{
         department: 'Finance',
         assignedBudget: 60000,
@@ -105,11 +117,13 @@ export class BudgetComponent {
         totalAmount: 60000,
       },
       employees: [
-        { id: '4', name: 'Sarah Ahmed', grade: 'E', budget: 25000 },
-        { id: '5', name: 'Mohammed Ali', grade: 'D', budget: 20000 }
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
       ]
     },
     {
+      id:"b3",
       department:{
         department: 'Sales',
         assignedBudget: 75000,
@@ -135,11 +149,13 @@ export class BudgetComponent {
         totalAmount: 75000,
       },
       employees: [
-        { id: '6', name: 'Ali Hassan', grade: 'C', budget: 30000 },
-        { id: '7', name: 'Fatima Omar', grade: 'B', budget: 25000 }
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
       ]
     },
     {
+      id:"b4",
       department:{
         department: 'Operations',
       assignedBudget: 40000,
@@ -165,10 +181,12 @@ export class BudgetComponent {
         totalAmount: 40000,
       },
       employees: [
-        { id: '8', name: 'Omar Khalid', grade: 'A', budget: 20000 }
-      ]
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },   ]
     },
     {
+      id:"b5",
       department:{
         department: 'Development',
         assignedBudget: 30000,
@@ -194,11 +212,13 @@ export class BudgetComponent {
         totalAmount: 30000,
       },
       employees: [
-        { id: '9', name: 'Ahmad Developer', grade: 'A', budget: 15000 },
-        { id: '10', name: 'Sara Coder', grade: 'B', budget: 10000 }
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
       ]
     },
     {
+      id:"b6",
       department:{
         department: 'HR',
         assignedBudget: 22000,
@@ -224,8 +244,9 @@ export class BudgetComponent {
       totalAmount: 22000,
       },
       employees: [
-        { id: '11', name: 'HR Manager', grade: 'C', budget: 12000 }
-      ]
+        { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+        { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+        { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },    ]
     }
   ];
 
@@ -238,6 +259,16 @@ export class BudgetComponent {
     { department: 'HR', assigned: 22, spend: 10 }
   ];
 
+  employees = [
+    { id: '1', name: 'John Doe', grade: 'Grade A',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000 },
+    { id: '2', name: 'Jane Smith', grade: 'Grade B',role:'HR',department:'admin', budget: 40000,assignedBudget:10000,spendBudget:20000  },
+    { id: '3', name: 'Mike Johnson', grade: 'Grade C',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
+    { id: '4', name: 'Sarah Wilson', grade: 'Grade D',role:'HR',department:'admin' , budget: 40000 ,assignedBudget:10000,spendBudget:20000},
+    { id: '5', name: 'Ahmed Al-Rashid', grade: 'Grade E',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000 },
+    { id: '6', name: 'Fahad Abdullah', grade: 'Grade F',role:'HR',department:'admin', budget: 40000 ,assignedBudget:10000,spendBudget:20000},
+    { id: '7', name: 'Ahmed Saeed', grade: 'Grade G',role:'HR',department:'admin', budget: 30000,assignedBudget:10000,spendBudget:20000 },
+    { id: '8', name: 'Sultan Faisal', grade: 'Grade h',role:'HR',department:'admin', budget: 15000 ,assignedBudget:10000,spendBudget:20000}
+  ];
   ngOnInit() {
     // Initialize component
     if(this.budgets.length>0){
@@ -315,19 +346,51 @@ export class BudgetComponent {
     this.isAddBudget = true;
   }
 
-  viewDetails(deptBudget: Budget) {
+  viewBudgetDetails(deptBudget: Budget) {
     console.log(`View details for ${deptBudget.department}`);
     this.selectedBudget = deptBudget;
     this.isDeptDetails = true;
   }
-  addBudget(data:any){
+  viewEmpDetails(emp: Employee) {
+    console.log(`View details for ${emp}`);
+    this.selectedEmp = emp;
+    this.isEmpDetails = true;
+  }
+
+  editBudget(data:any){
+    console.log(data.update)
+    if(data.update){
+      this.updateBudget(data.data)
+    }
+    else{
+      this.addBudget(data.data)
+    }
+    this.isAddBudget=false
+    this.isAdd=false
+    this.selectedBudget=null
+  }
+  addBudget(data:Budget){
     // { department: 'HR', assignedBudget: 22, spendBudget: 10,availableBudget:90  }
     // const newBudget= { department: data.department.budgetName, assignedBudget: data.department.totalAmount, spendBudget: 0,availableBudget: data.department.totalAmount }
     this.budgets.push(data)
-    this.isAddBudget=false
-    this.isAdd=false
+
   }
 
+  updateBudget(data:Budget){
+    this.budgets.forEach((budget,i )=> {
+      // console.log("h",budget.id,"===",data.id)
+
+
+      if (budget.id===data.id) {
+        // console.log(budget )
+        // console.log(this.budgets[i])
+        // console.log(data)
+        this.budgets[i]=data
+        console.log(this.budgets)
+      }
+
+    });
+  }
   cancelAddBudget() {
     this.isAddBudget = false;
   }
@@ -337,7 +400,7 @@ export class BudgetComponent {
     this.selectedBudget = null;
   }
 
-  editBudget() {
+  editBudgetClick() {
     this.isDeptDetails = false;
     this.isAddBudget = true;
   }

@@ -9,12 +9,14 @@ import { TreeComponent } from "../components/tree/tree.component";
 import { ProfileComponent } from "../components/profile/profile.component";
 import { Profile2Component } from "../components/profile2/profile2.component";
 import { BudgetComponent } from "../components/budget/budget.component";
+import { TripComponent } from "../components/trip/trip.component";
+import { WalletComponent } from "../components/wallet/wallet.component";
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TreeComponent, ProfileComponent, Profile2Component, BudgetComponent],
+  imports: [TreeComponent, ProfileComponent, Profile2Component, BudgetComponent, TripComponent, WalletComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

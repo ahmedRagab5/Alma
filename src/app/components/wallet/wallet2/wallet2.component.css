@@ -1,0 +1,18 @@
+.top{
+  display: flex;
+  padding: 8px 6px;
+  background-color: #F6F8FA;
+  border-radius: 4px;
+  width: fit-content;
+  margin-bottom: 16px;
+  div{
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+.active{
+  background-color: #EF4137;
+  color: white;
+}
+

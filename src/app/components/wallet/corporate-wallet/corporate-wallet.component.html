@@ -1,0 +1,125 @@
+<div class="wallet-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1 class="wallet-title">Wallet</h1>
+    <p class="wallet-description">
+      Manage your company's travel funds with ease. Monitor spending, allocate budgets to departments,
+    </p>
+  </div>
+
+  <!-- Cards Section -->
+  <div class="cards-section">
+    <!-- Balance Card -->
+    <div class="card balance-card" (click)="isPayment=true">
+      <h3 class="card-title">Balance</h3>
+      <div class="balance-content">
+        <span class="currency-icon">{{ date.currency.charAt(0) }}</span>
+        <span class="balance-amount">{{ formatCurrency(date.balance) }}</span>
+      </div>
+    </div>
+
+    <!-- Add Money Card -->
+    <div class="card add-money-card">
+      <h3 class="card-title">Add Money to Wallet</h3>
+      <span>Enter Amount</span>
+      <div class="add-money-content">
+        <input
+          type="text"
+          placeholder="Sar 230"
+          class="amount-input"
+          [(ngModel)]="topUpAmount"
+        />
+        <button class="button" (click)="onTopUpWallet()">TOP-UP WALLET</button>
+      </div>
+    </div>
+
+    <!-- Rewards Card -->
+    <div class=" rewards-card">
+      <div class="rewards-header">
+        <span class="medal-icon">🏅</span>
+        <div class="rewards-info">
+          <div class="points-amount">{{ date.points }} Points</div>
+          <div class="redeem-link" (click)="onRedeemPoints()"><span class="link">Redeem Points</span></div>
+        </div>
+
+      </div>
+
+      <div class="bottom" (click)="isRewards=true">
+      <div class="card-label">
+        Rewards
+      </div>
+      <div>
+        <span class="nav-arrow">›</span>
+      </div>
+      </div>
+    </div>
+
+    <!-- Gift Voucher Card -->
+    <div class=" gift-card">
+      <div class="gift-header">
+        <span class="gift-icon">🎁</span>
+        <div class="gift-amount">{{ formatCurrency(date.giftVoucherAmount) }}</div>
+      </div>
+      <div class="card-label">Gift Voucher</div>
+    </div>
+  </div>
+
+  <!-- Transaction History Section -->
+  <div class="transaction-section">
+    <div class="top">
+      <span class="transaction-title">Transaction History</span>
+      <div class="button" (click)="downloudCVS()" >Download Report</div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="length === 0">
+      <div class="empty-illustration">
+        <div class="document-shape">
+          <div class="inner-rect">
+            <span class="sad-face">😞</span>
+          </div>
+        </div>
+        <div class="plus-decorations">
+          <span class="plus">+</span>
+          <span class="plus">+</span>
+          <span class="plus">+</span>
+        </div>
+      </div>
+      <div class="empty-message">No Transaction yet</div>
+      <div class="empty-instruction">
+        Your transaction history will appear here once you start making purchases.
+      </div>
+    </div>
+
+    <!-- Transaction List -->
+    <div class="" *ngIf="length > 0">
+      <!-- <app-table [data]="transactions" [columns]="dataInfo" [searchName]="'customerName'" /> -->
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  @if (isRewards) {
+      <div class="parts">
+        <div class="close" (click)="isRewards=false" ><i class="fa-solid fa-x"></i></div>
+        <div class="cont">
+          <div class="title">
+            Rewards: <span>Available Balance SAR 1,234</span>
+          </div>
+          <app-table [data]="rewards" [columns]="rewardsInfo" [searchName]="'transactionId'"></app-table>
+        </div>
+      </div>
+      <div class="back"></div>
+  }
+  @if (isPayment) {
+    <div class="parts">
+      <div class="close" (click)="isPayment=false" ><i class="fa-solid fa-x"></i></div>
+      <div class="cont">
+        <app-payment/>
+      </div>
+    </div>
+
+    <div class="back"></div>
+  }
+
+
+</div>

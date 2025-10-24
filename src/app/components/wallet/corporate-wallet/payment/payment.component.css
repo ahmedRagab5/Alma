@@ -1,0 +1,292 @@
+/* Payment Container */
+.payment-container {
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #ffffff;
+}
+
+/* Main Title */
+.payment-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 2rem 0;
+}
+
+/* Payment Card */
+.payment-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 24px;
+  padding: 10px;
+  /* min-height: 600px; */
+  overflow: hidden;
+}
+
+/* Left Section - Payment Methods */
+.payment-methods {
+  min-width: 160px;
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  padding:15px 0;
+  height: fit-content;
+  border-radius: 8px;
+}
+
+.method-item {
+  padding:  6px 13px;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 500;
+  color: #64748b;
+  border: 3px solid transparent;
+}
+
+.method-item:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.method-item.active {
+  color: #ef4137;
+
+  border-left-color:  #ef4137;
+  font-weight: 600;
+}
+
+.method-item:last-child {
+  border-bottom: none;
+}
+
+/* Right Section - Card Details */
+.card-details-section {
+  flex: 1;
+  /* padding: 2rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  /* font-size: 1.5rem; */
+  font-weight: 500;
+  /* color: #2d3748; */
+  margin: 0;
+}
+
+/* Card Type Selection */
+.card-type-selection {
+  display: flex;
+  gap: 1rem;
+  /* margin-bottom: 1rem; */
+}
+
+.card-type-option {
+  flex: 1;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 180px;
+}
+
+.card-type-option:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-type-option.selected {
+  border-color: #ef4137;
+  /* background: #fef2f2; */
+}
+
+.card-type-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-items: start;
+}
+
+.radio-indicator {
+  color: #ef4137;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-type-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.card-type-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  font-size: 400;
+}
+
+.circle{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #D6D6D6;
+}
+
+/* Form Fields */
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.form-input {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background: #ffffff;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ef4137;
+  box-shadow: 0 0 0 3px rgba(239, 65, 55, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  /* margin-top: auto; */
+  /* padding-top: 1rem; */
+  /* border-top: 1px solid #e2e8f0; */
+}
+
+.cancel-btn {
+  padding: 0.875rem 2rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  border-color: #cbd5e0;
+  background: #f8fafc;
+}
+
+.topup-btn {
+  padding: 0.875rem 2rem;
+  background: #ef4137;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.topup-btn:hover {
+  background: #dc2626;
+}
+
+.topup-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 1rem;
+  }
+
+  .payment-card {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .payment-methods {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .method-item {
+    white-space: nowrap;
+    border-bottom: none;
+    border-right: 1px solid #e2e8f0;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .method-item.active {
+    border-right: 4px solid #ef4137;
+    border-bottom: none;
+  }
+
+  .card-type-selection {
+    flex-direction: column;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .topup-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-title {
+    font-size: 1.5rem;
+  }
+
+  .card-details-section {
+    padding: 1rem;
+  }
+
+  .card-type-option {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,20 @@
+<app-corporate-wallet [date]="walletDate" [length]="transactions.length">
+  <div>
+    <div class="top">
+      <div [class.active]="isTran"  (click)="isTran=true">
+        All Transaction
+      </div>
+      <div [class.active]="!isTran" (click)="isTran=false">
+        Employee
+      </div>
+    </div>
+    <div class="bottom">
+      @if (isTran) {
+        <app-table [data]="transactions" [columns]="dataInfo" [searchName]="'CustomerName'" [filters]="filters" [dateName]="'TransactionDate'" />
+      }
+      @else {
+        <app-table [data]="transactions" [columns]="dataInfo" [searchName]="'CustomerName'" />
+      }
+    </div>
+  </div>
+</app-corporate-wallet>

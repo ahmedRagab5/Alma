@@ -36,7 +36,7 @@
           @if (radio.value=='department') {
             <div class="form-group">
               <label>Department*</label>
-              <select formControlName="selectedDepartment">
+              <select formControlName="department">
                 <option value="">Select</option>
                 <option value="admin">Admin</option>
                 <option value="finance">Finance</option>
@@ -65,7 +65,7 @@
           <div class="form-row">
             <div class="form-group">
               <label>Policy</label>
-              <select formControlName="selectedPolicy">
+              <select formControlName="policy">
                 <option value="">Select</option>
                 <option value="policy1">Policy 1</option>
                 <option value="policy2">Policy 2</option>
@@ -133,7 +133,7 @@
             <div formArrayName="employees">
               @for (employee of employees.controls; track $index; let i = $index) {
                 <div class="employee-input-row" [formGroup]="$any(employee)">
-                  <select formControlName="name" placeholder="Select Name">
+                  <select formControlName="id" placeholder="Select Name">
                     <option value="">Select Name</option>
                     <option *ngFor="let emp of employeeOptions" [value]="emp.id">
                       {{ emp.name }}
@@ -141,7 +141,7 @@
                   </select>
                   <input type="text" formControlName="grade" placeholder="Grade" readonly>
                   <div class="amount-input">
-                    <input type="number" formControlName="amount" placeholder="Enter amount">
+                    <input type="number" formControlName="budget" placeholder="Enter amount">
                     <span class="currency">SAR</span>
                   </div>
                   @if (employees.length > 1) {

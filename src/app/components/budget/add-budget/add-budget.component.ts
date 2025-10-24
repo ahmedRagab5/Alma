@@ -1,7 +1,7 @@
+import { Budget, Employee } from './../budget.component';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Budget } from '../budget.component';
 
 @Component({
   selector: 'app-add-budget',
@@ -13,22 +13,26 @@ import { Budget } from '../budget.component';
 export class AddBudgetComponent implements OnInit {
   @Output() dataToParent = new EventEmitter<any>();
   @Output() cancelToParent = new EventEmitter<void>();
-  @Input() data!:Budget
 
+  @Input() data!:Budget
+  id:string=''
   departmentForm!: FormGroup;
   userForm!: FormGroup;
   newEmployeeForm!:FormGroup
   // employees: FormArray;
   numEmp:number[]=[0]
-
+  isUpdate = false
   radio:FormControl=new FormControl('department')
   // Employee data
   employeeOptions = [
-    { id: 'john', name: 'John Doe', grade: 'Grade A' },
-    { id: 'jane', name: 'Jane Smith', grade: 'Grade B' },
-    { id: 'mike', name: 'Mike Johnson', grade: 'Grade C' },
-    { id: 'sarah', name: 'Sarah Wilson', grade: 'Grade D' },
-    { id: 'ahmed', name: 'Ahmed Al-Rashid', grade: 'Grade E' }
+    { id: '1', name: 'John Doe', grade: 'Grade A' },
+    { id: '2', name: 'Jane Smith', grade: 'Grade B' },
+    { id: '3', name: 'Mike Johnson', grade: 'Grade C' },
+    { id: '4', name: 'Sarah Wilson', grade: 'Grade D' },
+    { id: '5', name: 'Ahmed Al-Rashid', grade: 'Grade E' },
+    { id: '6', name: 'Fahad Abdullah', grade: 'Grade F', budget: 40000 },
+    { id: '7', name: 'Ahmed Saeed', grade: 'Grade G', budget: 30000 },
+    { id: '8', name: 'Sultan Faisal', grade: 'Grade h', budget: 15000 }
   ];
 
   constructor(private fb: FormBuilder) {
@@ -39,6 +43,7 @@ export class AddBudgetComponent implements OnInit {
     this.initializeForm();
     // Setup employee selection for the initial employee form
     this.setupEmployeeSelection();
+    console.log('data'+this.data)
   }
 
 
@@ -50,12 +55,14 @@ export class AddBudgetComponent implements OnInit {
   setupEmployeeSelection() {
     // Setup employee selection for each employee form in the array
     this.employees.controls.forEach(employeeForm => {
-      employeeForm.get('name')?.valueChanges.subscribe(selectedId => {
+      employeeForm.get('id')?.valueChanges.subscribe(selectedId => {
         if (selectedId) {
           const selectedEmployee = this.employeeOptions.find(emp => emp.id === selectedId);
+          console.log(selectedEmployee)
           if (selectedEmployee) {
             employeeForm.patchValue({
-              grade: selectedEmployee.grade
+              grade: selectedEmployee.grade,
+              name:selectedEmployee.name
             });
           }
         } else {
@@ -68,44 +75,51 @@ export class AddBudgetComponent implements OnInit {
   }
 
   initializeForm() {
+    const dept = this.data?.department || {}; // نحط object فاضي لو department مش موجودة
+    const user = this.data?.user || {}; // نحط object فاضي لو department مش موجودة
+
     this.departmentForm = this.fb.group({
-      selectedDepartment: [this.data.department.department, Validators.required],
-      budgetName: [this.data.department.budgetName, Validators.required],
-      selectedPolicy: [this.data.department.policy],
-      budgetPeriod: [this.data.department.budgetPeriod, Validators.required],
-      startDate: [this.data.department.startDate, Validators.required],
-      endDate: [this.data.department.endDate, Validators.required],
-      totalAmount: [this.data.department.totalAmount, [Validators.required, Validators.min(1)]],
-      // employees: this.employees
+      department: [dept.department || '', Validators.required],
+      budgetName: [dept.budgetName || '', Validators.required],
+      policy: [dept.policy || ''],
+      budgetPeriod: [dept.budgetPeriod || '', Validators.required],
+      startDate: [dept.startDate || '', Validators.required],
+      endDate: [dept.endDate || '', Validators.required],
+      totalAmount: [dept.totalAmount ?? '', [Validators.required, Validators.min(1)]]
     });
+
     this.userForm = this.fb.group({
-      budgetName: [this.data.department.budgetName, Validators.required],
-      selectedPolicy: [this.data.department.policy],
-      budgetPeriod: [this.data.department.budgetPeriod, Validators.required],
-      startDate: [this.data.department.startDate, Validators.required],
-      endDate: [this.data.department.endDate, Validators.required],
-      totalAmount: [this.data.department.totalAmount, [Validators.required, Validators.min(1)]],
-      // employees: this.employees
-    });
-    this.newEmployeeForm=this.fb.group({
-      employees: this.fb.array([this.data.employees||this.employee()]) // نبدأ بعنصر واحد
+      budgetName: [user.budgetName || '', Validators.required],
+      policy: [user.policy || ''],
+      budgetPeriod: [user.budgetPeriod || '', Validators.required],
+      startDate: [user.startDate || '', Validators.required],
+      endDate: [user.endDate || '', Validators.required],
+      totalAmount: [user.totalAmount ?? '', [Validators.required, Validators.min(1)]]
     });
 
-
+    this.newEmployeeForm = this.fb.group({
+      employees: this.fb.array(
+        this.data?.employees?.length
+          ? this.data.employees.map(emp => this.employee(emp))
+          : [this.employee()]
+      )
+    });
   }
-  employee(): FormGroup {
+
+  employee(emp?: Employee): FormGroup {
     return this.fb.group({
-      name: ['', Validators.required],
-      grade: [''],
-      amount: ['', [Validators.required, Validators.min(1)]]
+      id: [emp?.id || '', Validators.required],
+      name:[emp?.name || ''],
+      grade: [emp?.grade || ''],
+      budget: [emp?.budget || '', [Validators.required, Validators.min(1)]]
     });
   }
   get employees(): FormArray {
     return this.newEmployeeForm.get('employees') as FormArray;
   }
-  get employeesArray() {
-    return this.departmentForm.get('employees') as FormArray;
-  }
+  // get employeesArray() {
+  //   return this.departmentForm.get('employees') as FormArray;
+  // }
 
   // newEmployeeForm() {
   //   return this.fb.group({
@@ -127,17 +141,39 @@ export class AddBudgetComponent implements OnInit {
 
   saveBudget() {
     if (this.departmentForm.valid&&this.newEmployeeForm.valid&&this.userForm.valid) {
-      console.log('Save budget clicked');
-      // console.log('dep data:', this.departmentForm.value);
-      // console.log('user data:', this.userForm.value);
-      // console.log('new:', this.newEmployeeForm.value);
-      this.data={
-        department:this.departmentForm.value,
-        user: this.userForm.value,
-        employees:this.newEmployeeForm.value
+
+      if (this.data!=null) {
+        this.isUpdate=true
+        this.id=this.data.id
       }
-      this.dataToParent.emit(this.data)
-      console.log(this.data)
+      else{
+        this.id='b10'
+      }
+        console.log('Save budget clicked');
+        // console.log('dep data:', this.departmentForm.value);
+        // console.log('user data:', this.userForm.value);
+        // console.log('new:', this.newEmployeeForm.value);
+        console.log(this.newEmployeeForm.value.employees)
+        this.data={
+          id:this.id,
+          department:{
+            ...this.departmentForm.value,
+            assignedBudget:this.isUpdate?this.data.department.assignedBudget:this.departmentForm.get('totalAmount')?.value,
+            spendBudget:this.isUpdate?this.data.department.spendBudget:0,
+            availableBudget:this.isUpdate?this.data.department.availableBudget:this.departmentForm.get('totalAmount')?.value
+          },
+          user:{
+            ...this.userForm.value,
+            assignedBudget:this.isUpdate?this.data.user.assignedBudget:this.userForm.get('totalAmount')?.value,
+            spendBudget:this.isUpdate?this.data.user.spendBudget:0,
+            availableBudget:this.isUpdate?this.data.user.availableBudget:this.userForm.get('totalAmount')?.value
+          },
+          employees:this.newEmployeeForm.value.employees
+
+        }
+        this.dataToParent.emit({update:this.isUpdate,data:this.data})
+        // console.log({update:this.isUpdate,data:this.data})
+
       // Implement save budget logic here
     } else {
       console.log('Form is invalid');
@@ -159,12 +195,13 @@ export class AddBudgetComponent implements OnInit {
     this.employees.push(newEmployeeForm);
 
     // Setup employee selection for the new form
-    newEmployeeForm.get('name')?.valueChanges.subscribe(selectedId => {
+    newEmployeeForm.get('id')?.valueChanges.subscribe(selectedId => {
       if (selectedId) {
         const selectedEmployee = this.employeeOptions.find(emp => emp.id === selectedId);
         if (selectedEmployee) {
           newEmployeeForm.patchValue({
-            grade: selectedEmployee.grade
+            grade: selectedEmployee.grade,
+            name:selectedEmployee.name
           });
         }
       } else {

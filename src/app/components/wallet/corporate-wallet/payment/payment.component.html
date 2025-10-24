@@ -1,0 +1,128 @@
+<div class="payment-container">
+  <!-- Main Title -->
+  <h1 class="payment-title">Payment Options</h1>
+
+  <!-- Payment Card -->
+  <div class="payment-card">
+    <!-- Left Section - Payment Method Navigation -->
+    <div class="payment-methods">
+      <div class="method-item"
+           [class.active]="selectedMethod === 'apple'"
+           (click)="selectMethod('apple')">
+        Apple Pay
+      </div>
+      <div class="method-item active"
+           [class.active]="selectedMethod === 'cards'"
+           (click)="selectMethod('cards')">
+        Cards
+      </div>
+      <div class="method-item"
+           [class.active]="selectedMethod === 'netbanking'"
+           (click)="selectMethod('netbanking')">
+        Net Banking
+      </div>
+      <div class="method-item"
+           [class.active]="selectedMethod === 'mada'"
+           (click)="selectMethod('mada')">
+        MadaPay
+      </div>
+    </div>
+
+    <!-- Right Section - Card Details Form -->
+    <div class="card-details-section">
+      <span class="section-title">Cards</span>
+
+      <!-- Card Type Selection -->
+      <div class="card-type-selection">
+        <div class="card-type-option"
+             [class.selected]="selectedCardType === 'company'"
+             (click)="selectCardType('company')">
+
+              <div class="circle" [style.border]="selectedCardType === 'company'?'5px solid #EF4137':' 1px solid #D6D6D6'"></div>
+
+          <div class="card-type-header">
+            <span class="card-type-name">Company Card</span>
+            <div class="card-type-subtitle">Visa, Mastercard</div>
+          </div>
+
+        </div>
+
+        <div class="card-type-option"
+             [class.selected]="selectedCardType === 'cta'"
+             (click)="selectCardType('cta')">
+
+             <div class="circle" [style.border]="selectedCardType === 'cta'?'5px solid #EF4137':' 1px solid #D6D6D6'"></div>
+          <div class="card-type-header">
+            <span class="card-type-name">CTA Card</span>
+            <div class="card-type-subtitle">Visa, Mastercard</div>
+          </div>
+
+        </div>
+
+        <div class="card-type-option selected"
+             [class.selected]="selectedCardType === 'personal'"
+             (click)="selectCardType('personal')">
+
+             <div class="circle" [style.border]="selectedCardType === 'personal'?'5px solid #EF4137':' 1px solid #D6D6D6'"></div>
+
+          <div class="card-type-header">
+            <span class="card-type-name">Credit/Debit Card</span>
+            <div class="card-type-subtitle">Add personal card</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Input Fields -->
+      <div class="form-fields">
+        <div class="form-group">
+          <label class="field-label">Proxy name *</label>
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Enter CVV"
+            [(ngModel)]="cardDetails.proxyName">
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Card number *</label>
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Enter card number"
+            [(ngModel)]="cardDetails.cardNumber"
+            (input)="onCardNumberChange()"
+            maxlength="23">
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Expiry month *</label>
+          <input
+            type="text"
+            class="form-input"
+            placeholder="MM/YYYY"
+            [(ngModel)]="cardDetails.expiryDate"
+            (input)="onExpiryDateChange()"
+            maxlength="7">
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">CVV *</label>
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Enter CVV"
+            [(ngModel)]="cardDetails.cvv"
+            (input)="onCvvChange()"
+            maxlength="4">
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="cancel-btn" (click)="cancelPayment()">CANCEL</button>
+        <button class="topup-btn" (click)="processPayment()">TOP-UP WALLET</button>
+      </div>
+    </div>
+  </div>
+</div>
